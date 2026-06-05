@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎀 粉色梦幻乐园 | 专属浪漫空间</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Noto+Serif+SC:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #fff5f7, #ffe4e6, #f8e6f0, #f0e6f8);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #8b475d;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 飘落的粉色花瓣 */
+        .pink-petal { 
+            position: fixed;
+            top: -20px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1000;
+            animation: fallPink 12s ease-in-out forwards;
+            font-size: 1.8rem;
+        }
+
+        @keyframes fallPink {
+            0% {
+                transform: translateY(-10vh) rotate(0deg) translateX(0px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* 粉色星空背景 */
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 182, 193, 0.08) 0%, rgba(255, 105, 180, 0.03) 50%, rgba(218, 112, 214, 0.02) 100%);
+            z-index: -1;
+        }
+
+        /* 头部区域 */
+        .header {
+            text-align: center;
+            padding: 80px 20px 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-family: 'Caveat', cursive;
+            font-size: 4.5rem;
+            background: linear-gradient(135deg, #ff69b4, #ff1493, #da70d6, #ffb6c1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 5px 30px rgba(255, 105, 180, 0.3);
+            margin-bottom: 15px;
+            animation: glowPink 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowPink {
+            from { text-shadow: 0 0 20px rgba(255, 105, 180, 0.5); }
+            to { text-shadow: 0 0 40px rgba(255, 105, 180, 0.8), 0 0 60px rgba(218, 112, 214, 0.6); }
+        }
+
+        .header p {
+            font-size: 1.4rem;
+            color: #ff69b4;
+            opacity: 0.95;
+            margin-top: 10px;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 2px;
+        }
+
+        .header .subtitle {
+            font-size: 1rem;
+            color: #ff1493;
+            opacity: 0.8;
+            margin-top: 20px;
+            animation: fadeInPink 2s ease-in-out;
+        }
+
+        @keyframes fadeInPink {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 功能导航菜单 */
+        .nav-menu {
+            background: linear-gradient(135deg, rgba(255, 245, 247, 0.9), rgba(255, 228, 230, 0.95));
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            box-shadow: 0 10px 40px rgba(255, 105, 180, 0.15);
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            text-align: center;
+        }
+
+        .nav-item {
+            background: linear-gradient(135deg, #fff5f7, #ffe4e6);
+            border-radius: 15px;
+            padding: 15px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 105, 180, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.2);
+            background: linear-gradient(135deg, #ffe4e6, #ff69b4);
+            color: white;
+        }
+
+        .nav-item:hover i {
+            color: white;
+        }
+
+        .nav-item i {
+            font-size: 1.8rem;
+            color: #ff69b4;
+            margin-bottom: 8px;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item span {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #8b475d;
+            display: block;
+        }
+
+        /* 粉色3D爱心展示 */
+        .heart-section {
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .heart-3d-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        .heart-3d {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            animation: rotateHeart 15s ease-in-out infinite;
+        }
+
+        @keyframes rotateHeart {
+            0%, 100% { transform: rotateY(0deg) rotateX(20deg); }
+            25% { transform: rotateY(90deg) rotateX(20deg); }
+            50% { transform: rotateY(180deg) rotateX(20deg); }
+            75% { transform: rotateY(270deg) rotateX(20deg); }
+        }
+
+        .heart-petal {
+            position: absolute;
+            width: 80px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            border-radius: 50% 50% 0 0;
+            transform-origin: bottom center;
+            opacity: 0.95;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.6);
+        }
+
+        .heart-petal:nth-child(1) { transform: rotateY(0deg) translateZ(80px) rotate(45deg); }
+        .heart-petal:nth-child(2) { transform: rotateY(90deg) translateZ(80px) rotate(45deg); }
+        .heart-petal:nth-child(3) { transform: rotateY(180deg) translateZ(80px) rotate(45deg); }
+        .heart-petal:nth-child(4) { transform: rotateY(270deg) translateZ(80px) rotate(45deg); }
+
+        .heart-bottom {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff1493, #c71585);
+            border-radius: 0 0 50% 50%;
+            z-index: 5;
+        }
+
+        .heart-shadow {
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 35px;
+            background: radial-gradient(ellipse, rgba(255, 105, 180, 0.2) 0%, rgba(255, 105, 180, 0) 70%);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .heart-text {
+            margin-top: 35px;
+            font-size: 1.2rem;
+            color: #ff1493;
+            line-height: 2;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: 'Caveat', cursive;
+        }
+
+        /* 互动游戏区 - 粉色记忆游戏 */
+        .game-section {
+            padding: 60px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #ff1493;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2.5px;
+            background: linear-gradient(90deg, transparent, #ff69b4, transparent);
+        }
+
+        .memory-game {
+            max-width: 600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #fff5f7, #ffe4e6);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            font-size: 2.5rem;
+            color: #ff69b4;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .memory-card.flipped {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.3);
+        }
+
+        .memory-card.matched {
+            background: linear-gradient(135deg, #9400d3, #4b0082);
+            color: white;
+            cursor: default;
+            transform: scale(1.05);
+        }
+
+        .game-info {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 1.1rem;
+            color: #ff1493;
+        }
+
+        /* 粉色打字机 */
+        .typewriter-section {
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .typewriter-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(255, 245, 247, 0.95), rgba(255, 228, 230, 0.98));
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 50px 40px;
+            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.15);
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .typewriter-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 105, 180, 0.08), transparent 70%);
+            z-index: -1;
+        }
+
+        .typewriter-text {
+            font-size: 1.4rem;
+            line-height: 2.3;
+            color: #8b475d;
+            min-height: 120px;
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .typewriter-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.6em;
+            background: linear-gradient(180deg, #ff69b4, #ff1493);
+            margin-left: 5px;
+            animation: blinkPink 1s infinite;
+            vertical-align: middle;
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.7);
+        }
+
+        @keyframes blinkPink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .typewriter-btn {
+            margin-top: 30px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .typewriter-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(255, 105, 180, 0.6);
+        }
+
+        /* 粉色许愿池 */
+        .wishes-section {
+            padding: 60px 20px;
+            background: linear-gradient(180deg, transparent, rgba(255, 182, 193, 0.05), transparent);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .wish-pool {
+            max-width: 500px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(255, 245, 247, 0.9), rgba(255, 228, 230, 0.95));
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.15);
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wish-pool::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 105, 180, 0.1), transparent 70%);
+            z-index: -1;
+        }
+
+        .coin {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #ff69b4;
+            animation: floatCoin 3s ease-in-out infinite;
+        }
+
+        @keyframes floatCoin {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(10deg); }
+        }
+
+        .wish-input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 15px 0;
+            border: 2px solid #ff69b4;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Noto Serif SC', serif;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .wish-input:focus {
+            border-color: #ff1493;
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
+        }
+
+        .wish-btn {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 14px 45px;
+            font-size: 1.05rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        .wish-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(255, 105, 180, 0.6);
+        }
+
+        .wish-history {
+            margin-top: 30px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 105, 180, 0.2);
+        }
+
+        .wish-item {
+            padding: 8px 12px;
+            margin: 8px 0;
+            background: linear-gradient(135deg, #fff5f7, #ffe4e6);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            border-left: 3px solid #ff69b4;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* 粉色情话生成器 */
+        .generator-section {
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .generator-box {
+            max-width: 550px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(255, 245, 247, 0.95), rgba(255, 228, 230, 0.98));
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 45px;
+            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.15);
+            border: 2px solid rgba(255, 105, 180, 0.3);
+        }
+
+        .generator-result {
+            font-size: 1.3rem;
+            color: #8b475d;
+            line-height: 2.2;
+            min-height: 70px;
+            margin-bottom: 25px;
+            transition: all 0.5s ease;
+            font-family: 'Caveat', cursive;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            border-left: 4px solid #ff69b4;
+        }
+
+        .generator-btn {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 14px 45px;
+            font-size: 1.05rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .generator-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(255, 105, 180, 0.6);
+        }
+
+        /* 粉色倒计时 */
+        .countdown-section {
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .countdown-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(255, 245, 247, 0.95), rgba(255, 228, 230, 0.98));
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.15);
+            border: 2px solid rgba(255, 105, 180, 0.3);
+        }
+
+        .countdown-title {
+            font-size: 1.2rem;
+            color: #ff1493;
+            margin-bottom: 25px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .countdown-item {
+            background: linear-gradient(135deg, #fff5f7, #ffe4e6);
+            padding: 20px 10px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 105, 180, 0.3);
+        }
+
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ff1493;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            color: #8b475d;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 粉色相册展示 */
+        .album-section {
+            padding: 60px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .album-item {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .album-item:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+        }
+
+        .album-item i {
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .album-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.2) 50%, transparent 60%);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .album-item:hover::before {
+            transform: translateX(100%);
+        }
+
+        /* 粉色留言板 */
+        .message-section {
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .message-box {
+            max-width: 650px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(255, 245, 247, 0.95), rgba(255, 228, 230, 0.98));
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.15);
+            border: 2px solid rgba(255, 105, 180, 0.3);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px solid #ff69b4;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Noto Serif SC', serif;
+            min-height: 100px;
+            resize: vertical;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            border-color: #ff1493;
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
+        }
+
+        .message-btn {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 14px 45px;
+            font-size: 1.05rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .message-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(255, 105, 180, 0.6);
+        }
+
+        .message-list {
+            margin-top: 30px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .message-item {
+            background: linear-gradient(135deg, #fff5f7, #ffe4e6);
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border-left: 3px solid #ff69b4;
+            text-align: left;
+            font-size: 0.95rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        /* 粉色音乐播放器 */
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, rgba(255, 245, 247, 0.95), rgba(255, 228, 230, 0.98));
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 12px 20px;
+            box-shadow: 0 8px 30px rgba(255, 105, 180, 0.2);
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255, 105, 180, 0.3);
+        }
+
+        .music-icon {
+            font-size: 1.3rem;
+            color: #ff69b4;
+            transition: all 0.3s ease;
+        }
+
+        .music-player.playing .music-icon {
+            animation: spinPink 2s linear infinite;
+        }
+
+        @keyframes spinPink {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .music-text {
+            font-size: 0.85rem;
+            color: #8b475d;
+            font-weight: 600;
+        }
+
+        /* 粉色爱心收集 */
+        .love-progress {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(255, 245, 247, 0.95), rgba(255, 228, 230, 0.98));
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px 25px;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.15);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #ff1493;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+        }
+
+        .love-count {
+            font-weight: 700;
+            color: #ff1493;
+            font-size: 1.1rem;
+        }
+
+        .love-bar {
+            width: 100px;
+            height: 6px;
+            background: rgba(255, 105, 180, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-left: 10px;
+        }
+
+        .love-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff69b4, #ff1493);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* 底部 */
+        .footer {
+            text-align: center;
+            padding: 60px 20px 80px;
+            color: #ff1493;
+            opacity: 0.85;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer p {
+            font-size: 0.95rem;
+            line-height: 2;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .footer .signature {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            color: #ff69b4;
+            margin-top: 15px;
+            letter-spacing: 3px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 3rem;
+            }
+            .nav-grid {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            }
+            .nav-item i {
+                font-size: 1.3rem;
+            }
+            .nav-item span {
+                font-size: 0.7rem;
+            }
+            .memory-game {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            .countdown-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .album-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* 点击爱心特效 */
+        .click-heart {
+            position: fixed;
+            pointer-events: none;
+            font-size: 1.8rem;
+            z-index: 9999;
+            animation: clickHeartAnimPink 1s ease-out forwards;
+            filter: drop-shadow(0 3px 10px rgba(255, 105, 180, 0.6));
+        }
+
+        @keyframes clickHeartAnimPink {
+            0% {
+                opacity: 1;
+                transform: scale(0.5) translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.8) translateY(-80px) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 粉色星空背景 -->
+    <canvas id="canvas"></canvas>
+    <div class="overlay"></div>
+
+    <!-- 粉色音乐播放器 -->
+    <div class="music-player" id="musicPlayer" title="背景音乐">
+        <i class="fas fa-music music-icon" id="musicIcon"></i>
+        <span class="music-text">粉色旋律</span>
+    </div>
+
+    <!-- 粉色爱心收集 -->
+    <div class="love-progress">
+        <i class="fas fa-heart"></i>
+        <span>浪漫值：</span>
+        <span class="love-count" id="loveCount">0</span>
+        <div class="love-bar">
+            <div class="love-fill" id="loveFill"></div>
+        </div>
+    </div>
+
+    <!-- 头部 -->
+    <header class="header">
+        <h1>🎀 粉色梦幻乐园 🎀</h1>
+        <p>Every Pink Moment is for You</p>
+        <p class="subtitle">✨ 20+互动功能 · 专属粉色浪漫空间 ✨</p>
+    </header>
+
+    <!-- 功能导航菜单 -->
+    <section class="nav-menu">
+        <div class="nav-grid">
+            <div class="nav-item" onclick="scrollToSection('heart-section')">
+                <i class="fas fa-heart"></i>
+                <span>3D爱心</span>
+            </div>
+            <div class="nav-item" onclick="scrollToSection('game-section')">
+                <i class="fas fa-gamepad"></i>
+                <span>记忆游戏</span>
+            </div>
+            <div class="nav-item" onclick="scrollToSection('typewriter-section')">
+                <i class="fas fa-pen-nib"></i>
+                <span>打字机</span>
+            </div>
+            <div class="nav-item" onclick="scrollToSection('wishes-section')">
+                <i class="fas fa-coins"></i>
+                <span>许愿池</span>
+            </div>
+            <div class="nav-item" onclick="scrollToSection('generator-section')">
+                <i class="fas fa-magic"></i>
+                <span>情话生成</span>
+            </div>
+            <div class="nav-item" onclick="scrollToSection('countdown-section')">
+                <i class="fas fa-clock"></i>
+                <span>倒计时</span>
+            </div>
+            <div class="nav-item" onclick="scrollToSection('album-section')">
+                <i class="fas fa-images"></i>
+                <span>相册</span>
+            </div>
+            <div class="nav-item" onclick="scrollToSection('message-section')">
+                <i class="fas fa-comment"></i>
+                <span>留言板</span>
+            </div>
+            <div class="nav-item" onclick="createPinkRain()">
+                <i class="fas fa-cloud-rain"></i>
+                <span>粉色雨</span>
+            </div>
+            <div class="nav-item" onclick="showStats()">
+                <i class="fas fa-chart-line"></i>
+                <span>数据</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3D粉色爱心 -->
+    <section class="heart-section" id="heart-section">
+        <div class="heart-3d-container">
+            <div class="heart-3d">
+                <div class="heart-petal"></div>
+                <div class="heart-petal"></div>
+                <div class="heart-petal"></div>
+                <div class="heart-petal"></div>
+                <div class="heart-bottom"></div>
+            </div>
+            <div class="heart-shadow"></div>
+        </div>
+        <p class="heart-text">
+            你是我心中永不凋谢的粉色玫瑰，<br>
+            每一次跳动都为你而存在。💕
+        </p>
+    </section>
+
+    <!-- 粉色记忆游戏 -->
+    <section class="game-section" id="game-section">
+        <h2 class="section-title">🎮 粉色记忆配对游戏</h2>
+        <div class="memory-game" id="memoryGame"></div>
+        <p class="game-info" id="gameInfo">点击卡片进行配对，测试你的记忆力！</p>
+    </section>
+
+    <!-- 粉色打字机 -->
+    <section class="typewriter-section" id="typewriter-section">
+        <h2 class="section-title">📝 温柔正在书写</h2>
+        <div class="typewriter-box">
+            <div class="typewriter-text">
+                <span id="typewriterText"></span>
+                <span class="typewriter-cursor"></span>
+            </div>
+            <button class="typewriter-btn" onclick="startTypewriter()">
+                <i class="fas fa-sync-alt"></i> 换一句温柔
+            </button>
+        </div>
+    </section>
+
+    <!-- 粉色许愿池 -->
+    <section class="wishes-section" id="wishes-section">
+        <h2 class="section-title">🌟 粉色许愿池</h2>
+        <div class="wish-pool">
+            <div class="coin">
+                <i class="fas fa-coins"></i>
+            </div>
+            <input type="text" class="wish-input" id="wishInput" placeholder="✨ 写下你的愿望...">
+            <button class="wish-btn" onclick="makeWish()">
+                <i class="fas fa-paper-plane"></i> 投入许愿池
+            </button>
+            <div class="wish-history" id="wishHistory"></div>
+        </div>
+    </section>
+
+    <!-- 粉色情话生成器 -->
+    <section class="generator-section" id="generator-section">
+        <h2 class="section-title">💌 浪漫情话生成器</h2>
+        <div class="generator-box">
+            <div class="generator-result" id="generatorResult">
+                点击下方按钮，获取今日专属浪漫情话 💕
+            </div>
+            <button class="generator-btn" onclick="generateLove()">
+                <i class="fas fa-magic"></i> 生成情话
+            </button>
+        </div>
+    </section>
+
+    <!-- 粉色倒计时 -->
+    <section class="countdown-section" id="countdown-section">
+        <h2 class="section-title">⏰ 特别日子倒计时</h2>
+        <div class="countdown-box">
+            <div class="countdown-title">距离我们的纪念日还有</div>
+            <div class="countdown-grid">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">00</div>
+                    <div class="countdown-label">天</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">时</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">分</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">秒</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 粉色相册展示 -->
+    <section class="album-section" id="album-section">
+        <h2 class="section-title">📸 美好回忆相册</h2>
+        <div class="album-grid">
+            <div class="album-item"><i class="fas fa-heart"></i></div>
+            <div class="album-item"><i class="fas fa-star"></i></div>
+            <div class="album-item"><i class="fas fa-moon"></i></div>
+            <div class="album-item"><i class="fas fa-sun"></i></div>
+            <div class="album-item"><i class="fas fa-cloud"></i></div>
+            <div class="album-item"><i class="fas fa-flower"></i></div>
+            <div class="album-item"><i class="fas fa-butterfly"></i></div>
+            <div class="album-item"><i class="fas fa-gift"></i></div>
+            <div class="album-item"><i class="fas fa-ring"></i></div>
+        </div>
+    </section>
+
+    <!-- 粉色留言板 -->
+    <section class="message-section" id="message-section">
+        <h2 class="section-title">💭 甜蜜留言板</h2>
+        <div class="message-box">
+            <textarea id="messageInput" placeholder="✨ 写下你想说的话..."></textarea>
+            <button class="message-btn" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i> 发送消息
+            </button>
+            <div class="message-list" id="messageList"></div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer class="footer">
+        <p>In this pink wonderland,<br>every moment is crafted just for you.</p>
+        <p class="signature">—— With All My Love 💕</p>
+    </footer>
+
+    <script>
+        // 全局变量
+        let loveCount = 0;
+        let typewriterInterval = null;
+        let isMusicPlaying = false;
+        let gameCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let wishes = [];
+        let messages = [];
+
+        // 星空背景
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class PinkStar {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.3;
+                this.speed = Math.random() * 0.3 + 0.05;
+                this.brightness = Math.random() * 30 + 70;
+                this.twinkleSpeed = Math.random() * 0.03 + 0.01;
+                this.twinkleDir = 1;
+                this.color = ['#ff69b4', '#ff1493', '#da70d6', '#ffb6c1'][Math.floor(Math.random() * 4)];
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > canvas.height) {
+                    this.y = 0;
+                    this.x = Math.random() * canvas.width;
+                }
+
+                this.brightness += this.twinkleSpeed * this.twinkleDir;
+                if (this.brightness > 100 || this.brightness < 70) {
+                    this.twinkleDir *= -1;
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = `${this.color}${Math.floor(this.brightness).toString(16).padStart(2, '0')}`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const pinkStars = [];
+        for (let i = 0; i < 150; i++) {
+            pinkStars.push(new PinkStar());
+        }
+
+        function animatePinkStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            pinkStars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animatePinkStars);
+        }
+
+        animatePinkStars();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // 飘落粉色花瓣
+        function createPinkPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('pink-petal');
+            petal.innerHTML = ['🌸', '💮', '🩷', '✿', '🌷', '🌹'][Math.floor(Math.random() * 6)];
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.fontSize = (Math.random() * 15 + 12) + 'px';
+            petal.style.animationDuration = (Math.random() * 8 + 12) + 's';
+            petal.style.animationDelay = Math.random() * 3 + 's';
+            document.body.appendChild(petal);
+
+            setTimeout(() => petal.remove(), 25000);
+        }
+
+        setInterval(createPinkPetal, 800);
+
+        // 粉色雨
+        function createPinkRain() {
+            for (let i = 0; i < 60; i++) {
+                setTimeout(() => {
+                    const petal = document.createElement('div');
+                    petal.classList.add('pink-petal');
+                    petal.innerHTML = '🌸';
+                    petal.style.left = Math.random() * 100 + 'vw';
+                    petal.style.fontSize = (Math.random() * 25 + 18) + 'px';
+                    petal.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                    document.body.appendChild(petal);
+                    setTimeout(() => petal.remove(), 12000);
+                }, i * 80);
+            }
+            addLove(15);
+        }
+
+        // 点击页面生成爱心
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName !== 'BUTTON' && !e.target.closest('.nav-item')) {
+                const heart = document.createElement('div');
+                heart.classList.add('click-heart');
+                heart.innerHTML = ['💕', '💖', '💗', '💝', '✨', '🌸'][Math.floor(Math.random() * 6)];
+                heart.style.left = e.clientX + 'px';
+                heart.style.top = e.clientY + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1000);
+            }
+        });
+
+        // 滚动到指定区域
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            addLove(1);
+        }
+
+        // 显示统计数据
+        function showStats() {
+            alert(`💖 你的浪漫数据 💖\n\n收集的浪漫值: ${loveCount}\n许下的愿望: ${wishes.length}\n发送的消息: ${messages.length}\n完成的游戏: ${matchedPairs > 0 ? 1 : 0}\n\n感谢你让这个粉色乐园更加美好！`);
+            addLove(2);
+        }
+
+        // 打字机效果
+        const typewriterSentences = [
+            "你是我生命中最美的粉色奇迹，每一个瞬间都为你而闪耀。",
+            "想和你一起看遍世间所有的粉色日出日落，直到白发苍苍。",
+            "你的眼睛里有粉色的星辰大海，是我永远看不够的风景。",
+            "世间所有的美好加起来，都不及你微笑时的万分之一粉色温柔。",
+            "你是春天里最温柔的粉色风，夏天里最清凉的粉色雨，秋天里最温暖的粉色阳光，冬天里最温暖的粉色炉火。",
+            "遇见你之前，我从未相信一见钟情；遇见你之后，我的世界变成了粉色。",
+            "你是我所有不期而遇中，最美丽的粉色意外，最珍贵的粉色礼物。",
+            "如果世界上有一千种美好，那你就是第一千零一种粉色独特。",
+            "我想把所有的粉色温柔都给你，把所有的粉色浪漫都写给你，把所有的粉色未来都许给你。",
+            "你是落日弥漫的粉色橘，天边透亮的粉色星，是我穷极一生做不完的粉色梦。",
+            "你站在桥上看风景，看风景的人在楼上看你。粉色明月装饰了你的窗子，你装饰了我的粉色梦。",
+            "你是我心中永不凋谢的粉色玫瑰，是夜空中最亮的粉色星，是生命中最美的粉色奇迹。"
+        ];
+
+        let currentSentenceIndex = -1;
+
+        function startTypewriter() {
+            const textEl = document.getElementById('typewriterText');
+            
+            if (typewriterInterval) {
+                clearInterval(typewriterInterval);
+            }
+
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * typewriterSentences.length);
+            } while (newIndex === currentSentenceIndex && typewriterSentences.length > 1);
+            currentSentenceIndex = newIndex;
+
+            const sentence = typewriterSentences[currentSentenceIndex];
+            textEl.textContent = '';
+            let i = 0;
+
+            typewriterInterval = setInterval(() => {
+                if (i < sentence.length) {
+                    textEl.textContent += sentence[i];
+                    i++;
+                } else {
+                    clearInterval(typewriterInterval);
+                    typewriterInterval = null;
+                }
+            }, 70);
+            
+            addLove(3);
+        }
+
+        // 许愿池
+        function makeWish() {
+            const input = document.getElementById('wishInput');
+            const wish = input.value.trim();
+            
+            if (wish) {
+                wishes.push(wish);
+                
+                const history = document.getElementById('wishHistory');
+                const wishItem = document.createElement('div');
+                wishItem.classList.add('wish-item');
+                wishItem.textContent = `✨ ${wish}`;
+                history.prepend(wishItem);
+                
+                input.value = '';
+                addLove(2);
+                
+                // 限制显示最近10条
+                if (history.children.length > 10) {
+                    history.removeChild(history.lastChild);
+                }
+            } else {
+                alert('✨ 请先写下你的愿望哦~');
+            }
+        }
+
+        // 情话生成器
+        const subjects = ["你的眼睛", "你的笑容", "你的温柔", "你的声音", "你的一切", "你的背影", "你的侧脸", "你发光的模样", "你的存在", "你的灵魂", "你的小手", "你的拥抱"];
+        const predicates = [
+            "像极了粉色的海棠花，未眠且动人，让我沉醉",
+            "是我见过最美的粉色风景，比所有日落都温柔，让我心动",
+            "让我想把全世界的粉色星星都摘下来，只为点缀你的夜空",
+            "是这世间最治愈的粉色良药，一剂便足以治愈我所有的伤痛",
+            "像粉色冬日里的暖阳，让人忍不住想要靠近，永远不离开",
+            "胜过世间万千粉色诗句，是我读不完的最美粉色篇章",
+            "如同粉色陈年佳酿，越品越让人沉醉，无法自拔",
+            "是我不小心闯进的粉色梦境，美得让我不舍得醒来",
+            "如粉色夜空中最亮的星，照亮我前行的每一步",
+            "似粉色春风拂面，温柔了岁月，惊艳了时光",
+            "如粉色樱花般绚烂，让我的世界瞬间变得美好",
+            "似粉色糖果般甜蜜，让我每天都充满期待"
+        ];
+
+        function generateLove() {
+            const result = document.getElementById('generatorResult');
+            const subject = subjects[Math.floor(Math.random() * subjects.length)];
+            const predicate = predicates[Math.floor(Math.random() * predicates.length)];
+            
+            result.style.opacity = '0';
+            setTimeout(() => {
+                result.textContent = `${subject}，${predicate}。 💕`;
+                result.style.opacity = '1';
+            }, 300);
+            
+            addLove(2);
+        }
+
+        // 留言板
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                messages.push(message);
+                
+                const list = document.getElementById('messageList');
+                const messageItem = document.createElement('div');
+                messageItem.classList.add('message-item');
+                messageItem.textContent = `💭 ${message}`;
+                list.prepend(messageItem);
+                
+                input.value = '';
+                addLove(2);
+                
+                // 限制显示最近15条
+                if (list.children.length > 15) {
+                    list.removeChild(list.lastChild);
+                }
+            } else {
+                alert('💭 请先写下你想说的话哦~');
+            }
+        }
+
+        // 倒计时
+        function updateCountdown() {
+            // 假设纪念日是明年今天
+            const now = new Date();
+            const nextYear = now.getFullYear() + 1;
+            const anniversary = new Date(nextYear, now.getMonth(), now.getDate());
+            
+            const diff = anniversary - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // 记忆游戏
+        function initMemoryGame() {
+            const game = document.getElementById('memoryGame');
+            game.innerHTML = '';
+            
+            const emojis = ['💖', '💕', '💗', '💝', '🌸', '🌹', '🎀', '✨'];
+            gameCards = [...emojis, ...emojis];
+            gameCards.sort(() => Math.random() - 0.5);
+            
+            gameCards.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.classList.add('memory-card');
+                card.dataset.index = index;
+                card.dataset.emoji = emoji;
+                card.onclick = () => flipCard(card);
+                game.appendChild(card);
+            });
+            
+            flippedCards = [];
+            matchedPairs = 0;
+        }
+
+        function flipCard(card) {
+            if (flippedCards.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
+                card.classList.add('flipped');
+                card.textContent = card.dataset.emoji;
+                flippedCards.push(card);
+                
+                if (flippedCards.length === 2) {
+                    setTimeout(() => {
+                        if (flippedCards[0].dataset.emoji === flippedCards[1].dataset.emoji) {
+                            flippedCards[0].classList.add('matched');
+                            flippedCards[1].classList.add('matched');
+                            matchedPairs++;
+                            document.getElementById('gameInfo').textContent = `太棒了！已配对 ${matchedPairs}/8`;
+                            
+                            if (matchedPairs === 8) {
+                                document.getElementById('gameInfo').textContent = '🎉 恭喜你完成游戏！你是最棒的！';
+                                addLove(10);
+                            }
+                        } else {
+                            flippedCards[0].classList.remove('flipped');
+                            flippedCards[1].classList.remove('flipped');
+                            flippedCards[0].textContent = '';
+                            flippedCards[1].textContent = '';
+                        }
+                        flippedCards = [];
+                    }, 800);
+                }
+            }
+        }
+
+        // 爱心计数
+        function addLove(amount) {
+            loveCount += amount;
+            document.getElementById('loveCount').textContent = loveCount;
+            
+            // 更新进度条
+            const fillWidth = Math.min((loveCount / 1000) * 100, 100);
+            document.getElementById('loveFill').style.width = `${fillWidth}%`;
+            
+            // 数字变化动画
+            const countEl = document.getElementById('loveCount');
+            countEl.style.transform = 'scale(1.3)';
+            setTimeout(() => countEl.style.transform = 'scale(1)', 200);
+        }
+
+        // 音乐播放器（模拟）
+        document.getElementById('musicPlayer').addEventListener('click', function(e) {
+            e.stopPropagation();
+            isMusicPlaying = !isMusicPlaying;
+            this.classList.toggle('playing');
+            document.getElementById('musicIcon').classList.toggle('fa-pause');
+        });
+
+        // 初始化记忆游戏
+        initMemoryGame();
+
+        // 初始花瓣
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createPinkPetal, i * 400);
+        }
+
+        // 自动开始打字机
+        setTimeout(startTypewriter, 1500);
+    </script>
+</body>
+</html>
