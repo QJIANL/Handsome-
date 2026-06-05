@@ -2,1498 +2,1163 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎀 粉色梦幻乐园 | 专属浪漫空间</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>💕 给你的情书</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Noto+Serif+SC:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Noto Serif SC', serif;
-            background: linear-gradient(135deg, #fff5f7, #ffe4e6, #f8e6f0, #f0e6f8);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            font-family: 'ZCOOL XiaoWei', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #ffeef8, #fff0f5, #ffe4e9);
             min-height: 100vh;
             overflow-x: hidden;
-            color: #8b475d;
-            position: relative;
+            touch-action: manipulation; 
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* 飘落的粉色花瓣 */
-        .pink-petal { 
+        /* === 飘落效果 === */
+        .falling-item {
             position: fixed;
-            top: -20px;
-            opacity: 0;
+            top: -50px;
+            animation: fall linear infinite;
             pointer-events: none;
-            z-index: 1000;
-            animation: fallPink 12s ease-in-out forwards;
-            font-size: 1.8rem;
-        }
-
-        @keyframes fallPink {
-            0% {
-                transform: translateY(-10vh) rotate(0deg) translateX(0px);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.9;
-            }
-            90% {
-                opacity: 0.9;
-            }
-            100% {
-                transform: translateY(110vh) rotate(720deg) translateX(100px);
-                opacity: 0;
-            }
-        }
-
-        /* 粉色星空背景 */
-        #canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(255, 182, 193, 0.08) 0%, rgba(255, 105, 180, 0.03) 50%, rgba(218, 112, 214, 0.02) 100%);
-            z-index: -1;
-        }
-
-        /* 头部区域 */
-        .header {
-            text-align: center;
-            padding: 80px 20px 60px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .header h1 {
-            font-family: 'Caveat', cursive;
-            font-size: 4.5rem;
-            background: linear-gradient(135deg, #ff69b4, #ff1493, #da70d6, #ffb6c1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 5px 30px rgba(255, 105, 180, 0.3);
-            margin-bottom: 15px;
-            animation: glowPink 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glowPink {
-            from { text-shadow: 0 0 20px rgba(255, 105, 180, 0.5); }
-            to { text-shadow: 0 0 40px rgba(255, 105, 180, 0.8), 0 0 60px rgba(218, 112, 214, 0.6); }
-        }
-
-        .header p {
-            font-size: 1.4rem;
-            color: #ff69b4;
-            opacity: 0.95;
-            margin-top: 10px;
-            font-family: 'Playfair Display', serif;
-            letter-spacing: 2px;
-        }
-
-        .header .subtitle {
-            font-size: 1rem;
-            color: #ff1493;
-            opacity: 0.8;
-            margin-top: 20px;
-            animation: fadeInPink 2s ease-in-out;
-        }
-
-        @keyframes fadeInPink {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* 功能导航菜单 */
-        .nav-menu {
-            background: linear-gradient(135deg, rgba(255, 245, 247, 0.9), rgba(255, 228, 230, 0.95));
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 20px 40px;
-            max-width: 1200px;
-            margin: 0 auto 60px;
-            box-shadow: 0 10px 40px rgba(255, 105, 180, 0.15);
-            border: 2px solid rgba(255, 105, 180, 0.3);
-            position: relative;
-            z-index: 10;
-        }
-
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 15px;
-            text-align: center;
-        }
-
-        .nav-item {
-            background: linear-gradient(135deg, #fff5f7, #ffe4e6);
-            border-radius: 15px;
-            padding: 15px 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 105, 180, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-item:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.2);
-            background: linear-gradient(135deg, #ffe4e6, #ff69b4);
-            color: white;
-        }
-
-        .nav-item:hover i {
-            color: white;
-        }
-
-        .nav-item i {
-            font-size: 1.8rem;
-            color: #ff69b4;
-            margin-bottom: 8px;
-            display: block;
-            transition: all 0.3s ease;
-        }
-
-        .nav-item span {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #8b475d;
-            display: block;
-        }
-
-        /* 粉色3D爱心展示 */
-        .heart-section {
-            padding: 60px 20px;
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .heart-3d-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-            perspective: 1000px;
-        }
-
-        .heart-3d {
-            position: relative;
-            width: 250px;
-            height: 250px;
-            margin: 0 auto;
-            transform-style: preserve-3d;
-            animation: rotateHeart 15s ease-in-out infinite;
-        }
-
-        @keyframes rotateHeart {
-            0%, 100% { transform: rotateY(0deg) rotateX(20deg); }
-            25% { transform: rotateY(90deg) rotateX(20deg); }
-            50% { transform: rotateY(180deg) rotateX(20deg); }
-            75% { transform: rotateY(270deg) rotateX(20deg); }
-        }
-
-        .heart-petal {
-            position: absolute;
-            width: 80px;
-            height: 120px;
-            background: linear-gradient(135deg, #ff69b4, #ff1493);
-            border-radius: 50% 50% 0 0;
-            transform-origin: bottom center;
-            opacity: 0.95;
-            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.6);
-        }
-
-        .heart-petal:nth-child(1) { transform: rotateY(0deg) translateZ(80px) rotate(45deg); }
-        .heart-petal:nth-child(2) { transform: rotateY(90deg) translateZ(80px) rotate(45deg); }
-        .heart-petal:nth-child(3) { transform: rotateY(180deg) translateZ(80px) rotate(45deg); }
-        .heart-petal:nth-child(4) { transform: rotateY(270deg) translateZ(80px) rotate(45deg); }
-
-        .heart-bottom {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 80px;
-            background: linear-gradient(135deg, #ff1493, #c71585);
-            border-radius: 0 0 50% 50%;
-            z-index: 5;
-        }
-
-        .heart-shadow {
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 180px;
-            height: 35px;
-            background: radial-gradient(ellipse, rgba(255, 105, 180, 0.2) 0%, rgba(255, 105, 180, 0) 70%);
-            border-radius: 50%;
             z-index: 1;
         }
-
-        .heart-text {
-            margin-top: 35px;
-            font-size: 1.2rem;
-            color: #ff1493;
-            line-height: 2;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            font-family: 'Caveat', cursive;
-        }
-
-        /* 互动游戏区 - 粉色记忆游戏 */
-        .game-section {
-            padding: 60px 20px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .section-title {
-            text-align: center;
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            color: #ff1493;
-            margin-bottom: 40px;
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 2.5px;
-            background: linear-gradient(90deg, transparent, #ff69b4, transparent);
-        }
-
-        .memory-game {
-            max-width: 600px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            padding: 20px;
-        }
-
-        .memory-card {
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, #fff5f7, #ffe4e6);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255, 105, 180, 0.3);
-            font-size: 2.5rem;
-            color: #ff69b4;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .memory-card.flipped {
-            transform: rotateY(180deg);
-            background: linear-gradient(135deg, #ff69b4, #ff1493);
-            color: white;
-            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.3);
-        }
-
-        .memory-card.matched {
-            background: linear-gradient(135deg, #9400d3, #4b0082);
-            color: white;
-            cursor: default;
-            transform: scale(1.05);
-        }
-
-        .game-info {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 1.1rem;
-            color: #ff1493;
-        }
-
-        /* 粉色打字机 */
-        .typewriter-section {
-            padding: 60px 20px;
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .typewriter-box {
-            max-width: 700px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, rgba(255, 245, 247, 0.95), rgba(255, 228, 230, 0.98));
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
-            padding: 50px 40px;
-            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.15);
-            border: 2px solid rgba(255, 105, 180, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .typewriter-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 105, 180, 0.08), transparent 70%);
-            z-index: -1;
-        }
-
-        .typewriter-text {
-            font-size: 1.4rem;
-            line-height: 2.3;
-            color: #8b475d;
-            min-height: 120px;
-            font-family: 'Caveat', cursive;
-            font-size: 2rem;
-            text-align: center;
-        }
-
-        .typewriter-cursor {
-            display: inline-block;
-            width: 3px;
-            height: 1.6em;
-            background: linear-gradient(180deg, #ff69b4, #ff1493);
-            margin-left: 5px;
-            animation: blinkPink 1s infinite;
-            vertical-align: middle;
-            box-shadow: 0 0 10px rgba(255, 105, 180, 0.7);
-        }
-
-        @keyframes blinkPink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        .typewriter-btn {
-            margin-top: 30px;
-            background: linear-gradient(135deg, #ff69b4, #ff1493);
-            color: white;
-            border: none;
-            padding: 14px 40px;
-            font-size: 1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Playfair Display', serif;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
-            letter-spacing: 1px;
-        }
-
-        .typewriter-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 30px rgba(255, 105, 180, 0.6);
-        }
-
-        /* 粉色许愿池 */
-        .wishes-section {
-            padding: 60px 20px;
-            background: linear-gradient(180deg, transparent, rgba(255, 182, 193, 0.05), transparent);
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .wish-pool {
-            max-width: 500px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, rgba(255, 245, 247, 0.9), rgba(255, 228, 230, 0.95));
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 40px;
-            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.15);
-            border: 2px solid rgba(255, 105, 180, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .wish-pool::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 105, 180, 0.1), transparent 70%);
-            z-index: -1;
-        }
-
-        .coin {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: #ff69b4;
-            animation: floatCoin 3s ease-in-out infinite;
-        }
-
-        @keyframes floatCoin {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(10deg); }
-        }
-
-        .wish-input {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 15px 0;
-            border: 2px solid #ff69b4;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-family: 'Noto Serif SC', serif;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .wish-input:focus {
-            border-color: #ff1493;
-            box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
-        }
-
-        .wish-btn {
-            background: linear-gradient(135deg, #ff69b4, #ff1493);
-            color: white;
-            border: none;
-            padding: 14px 45px;
-            font-size: 1.05rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Playfair Display', serif;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
-            margin-top: 10px;
-            letter-spacing: 1px;
-        }
-
-        .wish-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 30px rgba(255, 105, 180, 0.6);
-        }
-
-        .wish-history {
-            margin-top: 30px;
-            max-height: 200px;
-            overflow-y: auto;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 105, 180, 0.2);
-        }
-
-        .wish-item {
-            padding: 8px 12px;
-            margin: 8px 0;
-            background: linear-gradient(135deg, #fff5f7, #ffe4e6);
-            border-radius: 10px;
-            font-size: 0.9rem;
-            border-left: 3px solid #ff69b4;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* 粉色情话生成器 */
-        .generator-section {
-            padding: 60px 20px;
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .generator-box {
-            max-width: 550px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, rgba(255, 245, 247, 0.95), rgba(255, 228, 230, 0.98));
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
-            padding: 45px;
-            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.15);
-            border: 2px solid rgba(255, 105, 180, 0.3);
-        }
-
-        .generator-result {
-            font-size: 1.3rem;
-            color: #8b475d;
-            line-height: 2.2;
-            min-height: 70px;
-            margin-bottom: 25px;
-            transition: all 0.5s ease;
-            font-family: 'Caveat', cursive;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 12px;
-            border-left: 4px solid #ff69b4;
-        }
-
-        .generator-btn {
-            background: linear-gradient(135deg, #ff69b4, #ff1493);
-            color: white;
-            border: none;
-            padding: 14px 45px;
-            font-size: 1.05rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Playfair Display', serif;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
-            letter-spacing: 1px;
-        }
-
-        .generator-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 30px rgba(255, 105, 180, 0.6);
-        }
-
-        /* 粉色倒计时 */
-        .countdown-section {
-            padding: 60px 20px;
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .countdown-box {
-            max-width: 600px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, rgba(255, 245, 247, 0.95), rgba(255, 228, 230, 0.98));
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
-            padding: 40px;
-            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.15);
-            border: 2px solid rgba(255, 105, 180, 0.3);
-        }
-
-        .countdown-title {
-            font-size: 1.2rem;
-            color: #ff1493;
-            margin-bottom: 25px;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .countdown-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .countdown-item {
-            background: linear-gradient(135deg, #fff5f7, #ffe4e6);
-            padding: 20px 10px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 105, 180, 0.3);
-        }
-
-        .countdown-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #ff1493;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .countdown-label {
-            font-size: 0.9rem;
-            color: #8b475d;
-            margin-top: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* 粉色相册展示 */
-        .album-section {
-            padding: 60px 20px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .album-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .album-item {
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, #ff69b4, #ff1493);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .album-item:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
-        }
-
-        .album-item i {
-            font-size: 3rem;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .album-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.2) 50%, transparent 60%);
-            transform: translateX(-100%);
-            transition: transform 0.5s ease;
-        }
-
-        .album-item:hover::before {
-            transform: translateX(100%);
-        }
-
-        /* 粉色留言板 */
-        .message-section {
-            padding: 60px 20px;
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .message-box {
-            max-width: 650px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, rgba(255, 245, 247, 0.95), rgba(255, 228, 230, 0.98));
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
-            padding: 40px;
-            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.15);
-            border: 2px solid rgba(255, 105, 180, 0.3);
-        }
-
-        textarea {
-            width: 100%;
-            padding: 15px;
-            margin: 15px 0;
-            border: 2px solid #ff69b4;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-family: 'Noto Serif SC', serif;
-            min-height: 100px;
-            resize: vertical;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        textarea:focus {
-            border-color: #ff1493;
-            box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
-        }
-
-        .message-btn {
-            background: linear-gradient(135deg, #ff69b4, #ff1493);
-            color: white;
-            border: none;
-            padding: 14px 45px;
-            font-size: 1.05rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Playfair Display', serif;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
-            letter-spacing: 1px;
-        }
-
-        .message-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 30px rgba(255, 105, 180, 0.6);
-        }
-
-        .message-list {
-            margin-top: 30px;
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 15px;
-        }
-
-        .message-item {
-            background: linear-gradient(135deg, #fff5f7, #ffe4e6);
-            padding: 12px 15px;
-            margin: 10px 0;
-            border-radius: 12px;
-            border-left: 3px solid #ff69b4;
-            text-align: left;
-            font-size: 0.95rem;
-            animation: slideIn 0.3s ease;
-        }
-
-        /* 粉色音乐播放器 */
-        .music-player {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, rgba(255, 245, 247, 0.95), rgba(255, 228, 230, 0.98));
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 12px 20px;
-            box-shadow: 0 8px 30px rgba(255, 105, 180, 0.2);
-            border: 2px solid rgba(255, 105, 180, 0.3);
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .music-player:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(255, 105, 180, 0.3);
-        }
-
-        .music-icon {
-            font-size: 1.3rem;
-            color: #ff69b4;
-            transition: all 0.3s ease;
-        }
-
-        .music-player.playing .music-icon {
-            animation: spinPink 2s linear infinite;
-        }
-
-        @keyframes spinPink {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .music-text {
-            font-size: 0.85rem;
-            color: #8b475d;
-            font-weight: 600;
-        }
-
-        /* 粉色爱心收集 */
-        .love-progress {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, rgba(255, 245, 247, 0.95), rgba(255, 228, 230, 0.98));
-            backdrop-filter: blur(10px);
-            border-radius: 50px;
-            padding: 10px 25px;
-            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.15);
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
-            color: #ff1493;
-            border: 2px solid rgba(255, 105, 180, 0.3);
-        }
-
-        .love-count {
-            font-weight: 700;
-            color: #ff1493;
-            font-size: 1.1rem;
-        }
-
-        .love-bar {
-            width: 100px;
-            height: 6px;
-            background: rgba(255, 105, 180, 0.2);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-left: 10px;
-        }
-
-        .love-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ff69b4, #ff1493);
-            border-radius: 3px;
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        /* 底部 */
-        .footer {
-            text-align: center;
-            padding: 60px 20px 80px;
-            color: #ff1493;
-            opacity: 0.85;
-            position: relative;
-            z-index: 10;
-        }
-
-        .footer p {
-            font-size: 0.95rem;
-            line-height: 2;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .footer .signature {
-            font-family: 'Caveat', cursive;
-            font-size: 1.8rem;
-            color: #ff69b4;
-            margin-top: 15px;
-            letter-spacing: 3px;
-        }
-
-        /* 响应式 */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 3rem;
-            }
-            .nav-grid {
-                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            }
-            .nav-item i {
-                font-size: 1.3rem;
-            }
-            .nav-item span {
-                font-size: 0.7rem;
-            }
-            .memory-game {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-            }
-            .countdown-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .album-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(720deg); }
         }
 
-        /* 点击爱心特效 */
+        /* === 点击爱心 === */
         .click-heart {
             position: fixed;
             pointer-events: none;
-            font-size: 1.8rem;
+            animation: floatUp 1.5s ease-out forwards;
+            font-size: 24px;
             z-index: 9999;
-            animation: clickHeartAnimPink 1s ease-out forwards;
-            filter: drop-shadow(0 3px 10px rgba(255, 105, 180, 0.6));
+        }
+        @keyframes floatUp {
+            0% { opacity: 1; transform: scale(0.5) translateY(0); }
+            100% { opacity: 0; transform: scale(1.5) translateY(-100px); }
         }
 
-        @keyframes clickHeartAnimPink {
-            0% {
-                opacity: 1;
-                transform: scale(0.5) translateY(0) rotate(0deg);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(1.8) translateY(-80px) rotate(360deg);
-            }
+        /* === 开场信封 === */
+        .envelope-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffb6c1, #ff69b4, #ff1493);
+            z-index: 10000;
+            transition: opacity 1s, transform 1s;
+        }
+        .envelope-container.opened {
+            opacity: 0;
+            transform: scale(1.5);
+            pointer-events: none;
+        }
+        .envelope {
+            width: 280px; height: 180px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .envelope:hover, .envelope:active { transform: scale(1.05); }
+        .envelope-body {
+            width: 100%; height: 100%;
+            background: linear-gradient(145deg, #fff5f8, #ffe0eb);
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .envelope-flap {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 50%;
+            background: linear-gradient(180deg, #ffb6c1, #ffc0cb);
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top;
+            transition: transform 0.6s;
+            z-index: 2;
+        }
+        .envelope:hover .envelope-flap { transform: rotateX(30deg); }
+        .envelope-heart {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            z-index: 3;
+            animation: pulse 1.5s infinite;
+        }
+        .envelope-text {
+            margin-top: 30px;
+            color: white;
+            font-size: 18px;
+            white-space: nowrap;
+            animation: blink 1.5s infinite;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* === 主内容 (🐛 修复：加上 opacity: 1) === */
+        .main-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            position: relative;
+            z-index: 2;
+        }
+        .main-content.show {
+            display: block;
+            opacity: 1; /* 关键修复：让内容显现 */
+        }
+
+        /* === 标题区 === */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        .hero h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: clamp(2rem, 8vw, 4.5rem);
+            color: #d63384;
+            text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.2);
+            animation: fadeInUp 1s ease-out;
+            margin-bottom: 20px;
+        }
+        .hero .subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: #e75480;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        /* === 爱心跳动 === */
+        .heart-container { margin: 30px 0; animation: fadeInUp 1s ease-out 0.6s both; }
+        .beating-heart {
+            width: 100px; height: 100px;
+            position: relative;
+            display: inline-block;
+            animation: heartbeat 1.2s infinite;
+            cursor: pointer;
+        }
+        .beating-heart::before, .beating-heart::after {
+            content: '';
+            position: absolute;
+            width: 50px; height: 80px;
+            background: linear-gradient(135deg, #ff6b9d, #ff1493);
+            border-radius: 50px 50px 0 0;
+        }
+        .beating-heart::before { left: 50px; transform: rotate(-45deg); transform-origin: 0 100%; }
+        .beating-heart::after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            56% { transform: scale(1); }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px; left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            font-size: 24px;
+            color: #d63384;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-15px); }
+        }
+
+        /* === 通用区块 === */
+        .section { padding: 80px 20px; max-width: 800px; margin: 0 auto; }
+        .section h2 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: #d63384;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* === 情书 === */
+        .love-letter {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.15);
+            border: 2px solid #ffb6c1;
+            position: relative;
+            overflow: hidden;
+        }
+        .love-letter::before {
+            content: '💌';
+            position: absolute;
+            top: -10px; right: 20px;
+            font-size: 40px;
+        }
+        .typewriter-text {
+            color: #555;
+            line-height: 2;
+            font-size: 1.1rem;
+            min-height: 200px;
+            white-space: pre-wrap; 
+        }
+        .typewriter-text .cursor {
+            display: inline-block;
+            width: 2px; height: 1.2em;
+            background: #d63384;
+            animation: cursorBlink 0.8s infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+        @keyframes cursorBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* === 理由卡片 === */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .reason-card {
+            background: linear-gradient(135deg, #fff0f5, #ffe4e9);
+            border-radius: 15px;
+            padding: 30px 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 1px solid #ffb6c1;
+            text-align: center;
+        }
+        .reason-card:hover, .reason-card:active {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 105, 180, 0.25);
+        }
+        .reason-card .icon { font-size: 40px; margin-bottom: 15px; }
+        .reason-card h3 { color: #d63384; margin-bottom: 10px; }
+        .reason-card p { color: #888; font-size: 0.9rem; line-height: 1.6; }
+
+        /* === 时间线 === */
+        .timeline { position: relative; padding-left: 40px; max-width: 700px; margin: 0 auto; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px; top: 0; bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #ff69b4, #ffb6c1);
+            border-radius: 3px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.6s ease-out;
+        }
+        .timeline-item.visible { opacity: 1; transform: translateX(0); }
+        .timeline-item::before {
+            content: '💗';
+            position: absolute;
+            left: -32px; top: 5px;
+            font-size: 16px;
+        }
+        .timeline-item h3 { color: #d63384; margin-bottom: 5px; }
+        .timeline-item p { color: #666; line-height: 1.6; }
+
+        /* === 刮刮卡 === */
+        .scratch-section { text-align: center; }
+        .scratch-card {
+            width: 300px; height: 200px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(255, 105, 180, 0.3);
+            cursor: pointer;
+            touch-action: none; 
+        }
+        .scratch-result {
+            position: absolute;
+            width: 100%; height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fff0f5, #ffe0eb);
+            font-size: 1.3rem;
+            color: #d63384;
+            font-weight: bold;
+            padding: 20px;
+            text-align: center;
+        }
+        .scratch-canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+
+        /* === 爱情计算器 === */
+        .love-calculator {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 15px 40px rgba(255, 105, 180, 0.15);
+            border: 2px solid #ffb6c1;
+            text-align: center;
+        }
+        .love-calculator input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 10px 0;
+            border: 2px solid #ffb6c1;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+            background: #fff5f8;
+        }
+        .love-calculator input:focus { border-color: #ff69b4; }
+        .love-calculator button {
+            margin-top: 20px;
+            padding: 12px 40px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .love-calculator button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 20, 147, 0.4);
+        }
+        .love-result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #d63384;
+            min-height: 50px;
+        }
+        .love-bar {
+            width: 100%; height: 12px;
+            background: #ffe0eb;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .love-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff69b4, #ff1493);
+            border-radius: 6px;
+            transition: width 1.5s ease-out;
+            width: 0%;
+        }
+
+        /* === 星星许愿 === */
+        .stars-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .star {
+            font-size: 40px;
+            cursor: pointer;
+            transition: transform 0.3s, filter 0.3s;
+            filter: grayscale(1) brightness(0.8);
+        }
+        .star.active {
+            filter: grayscale(0) brightness(1);
+            animation: starPop 0.4s;
+        }
+        @keyframes starPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5) rotate(20deg); }
+            100% { transform: scale(1); }
+        }
+        .wish-message { color: #d63384; font-size: 1.2rem; min-height: 30px; margin-top: 15px; text-align: center;}
+
+        /* === 拼图 === */
+        .puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 80px);
+            gap: 8px;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        .puzzle-piece {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.4s;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.2);
+            user-select: none;
+        }
+        .puzzle-piece:hover { transform: scale(1.1); }
+        .puzzle-piece.revealed {
+            background: linear-gradient(135deg, #fff0f5, #ffe0eb);
+            color: #d63384;
+            transform: rotateY(360deg);
+        }
+        .puzzle-message { margin-top: 20px; font-size: 1.2rem; color: #d63384; min-height: 30px; text-align: center;}
+
+        /* === 开关 === */
+        .love-toggle {
+            width: 160px; height: 60px;
+            background: #ffe0eb;
+            border-radius: 30px;
+            margin: 20px auto;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+            border: 3px solid #ffb6c1;
+        }
+        .love-toggle.active { background: linear-gradient(135deg, #ff69b4, #ff1493); border-color: #ff1493;}
+        .toggle-ball {
+            width: 48px; height: 48px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px; left: 4px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .love-toggle.active .toggle-ball { left: 104px; }
+        .toggle-text { font-size: 1.2rem; color: #d63384; margin-top: 15px; text-align: center;}
+
+        /* === 最终问题 === */
+        .question-section {
+            padding: 100px 20px;
+            text-align: center;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .btn-group { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; margin-top: 20px;}
+        .btn-yes, .btn-no {
+            padding: 15px 50px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-yes {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
+        }
+        .btn-yes:hover { transform: scale(1.1); box-shadow: 0 15px 40px rgba(255, 20, 147, 0.5); }
+        .btn-no {
+            background: #f0f0f0;
+            color: #999;
+            transition: all 0.2s;
+        }
+        #noHint { color:#aaa; margin-top:20px; font-size:0.9rem; min-height: 20px;}
+
+        /* === 成功页 === */
+        .success-page {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #ff69b4, #ff1493, #c71585);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+        .success-page.show { display: flex; animation: fadeIn 1s; }
+        .success-page h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: clamp(3rem, 10vw, 5rem);
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+        .success-page p { font-size: 1.5rem; opacity: 0.9; animation: fadeInUp 1s ease-out 0.3s both; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .firework {
+            position: fixed;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100000;
+        }
+
+        /* === 音乐按钮 === */
+        .music-btn {
+            position: fixed;
+            top: 20px; right: 20px;
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10001;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .music-btn.playing { animation: rotate 3s linear infinite; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* === 进度条 === */
+        .progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff69b4, #ff1493);
+            z-index: 10002;
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        .bubble {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        @media (max-width: 600px) {
+            .love-letter { padding: 25px; }
+            .reasons-grid { grid-template-columns: 1fr; }
+            .puzzle-grid { grid-template-columns: repeat(3, 70px); }
+            .puzzle-piece { width: 70px; height: 70px; font-size: 1.5rem;}
         }
     </style>
 </head>
 <body>
-    <!-- 粉色星空背景 -->
-    <canvas id="canvas"></canvas>
-    <div class="overlay"></div>
+    <!-- 进度条 -->
+    <div class="progress-bar" id="progressBar"></div>
 
-    <!-- 粉色音乐播放器 -->
-    <div class="music-player" id="musicPlayer" title="背景音乐">
-        <i class="fas fa-music music-icon" id="musicIcon"></i>
-        <span class="music-text">粉色旋律</span>
+    <!-- 音乐按钮 -->
+    <button class="music-btn" id="musicBtn" title="播放/暂停音乐">🎵</button>
+
+    <!-- 开场信封 -->
+    <div class="envelope-container" id="envelopeContainer">
+        <div class="envelope" id="envelope">
+            <div class="envelope-body">
+                <div class="envelope-flap"></div>
+                <div class="envelope-heart">💕</div>
+            </div>
+        </div>
+        <div class="envelope-text">✨ 点击打开给你的信 ✨</div>
     </div>
 
-    <!-- 粉色爱心收集 -->
-    <div class="love-progress">
-        <i class="fas fa-heart"></i>
-        <span>浪漫值：</span>
-        <span class="love-count" id="loveCount">0</span>
-        <div class="love-bar">
-            <div class="love-fill" id="loveFill"></div>
+    <!-- 主内容 -->
+    <div class="main-content" id="mainContent">
+        <div class="hero">
+            <h1>💗 遇见你是最美的意外 💗</h1>
+            <p class="subtitle">这是我写给你的情书，请慢慢往下看...</p>
+            <div class="heart-container">
+                <div class="beating-heart" id="beatingHeart"></div>
+            </div>
+            <div class="scroll-indicator">⬇️ 向下滑动 ⬇️</div>
+        </div>
+
+        <div class="section">
+            <div class="love-letter">
+                <h2 style="text-align:left; font-size:2rem; margin-bottom:20px;">📝 给你的一封信</h2>
+                <div class="typewriter-text" id="typewriterText"><span class="cursor"></span></div>
+            </div>
+        </div>
+
+        <div class="section reasons-section">
+            <h2>💝 喜欢你的理由</h2>
+            <div class="reasons-grid" id="reasonsGrid">
+                <div class="reason-card"><div class="icon">😊</div><h3>你的笑容</h3><p>每次看到你笑的时候，整个世界都变得明亮了起来</p></div>
+                <div class="reason-card"><div class="icon">🌟</div><h3>你的温柔</h3><p>你对每个人都那么温柔，让我觉得这个世界很美好</p></div>
+                <div class="reason-card"><div class="icon">💫</div><h3>你的认真</h3><p>你专注做事情的样子，真的特别迷人</p></div>
+                <div class="reason-card"><div class="icon">🦋</div><h3>你的可爱</h3><p>你不经意的小动作，总是让我心动不已</p></div>
+                <div class="reason-card"><div class="icon">🌸</div><h3>你的声音</h3><p>听到你说话的声音，就像春风拂过心田</p></div>
+                <div class="reason-card"><div class="icon">💖</div><h3>你的一切</h3><p>关于你的一切，我都想要珍惜和守护</p></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📅 我们的心动时刻</h2>
+            <div class="timeline" id="timeline">
+                <div class="timeline-item"><h3>第一次遇见</h3><p>那一天，阳光正好，你走进了我的视线，从此我的心里多了一个你。</p></div>
+                <div class="timeline-item"><h3>第一次对话</h3><p>紧张得手心出汗，说出的每句话都小心翼翼，生怕给你留下不好的印象。</p></div>
+                <div class="timeline-item"><h3>第一次心动</h3><p>你不经意间的微笑，让我的心跳漏了半拍，我知道，我已经喜欢上你了。</p></div>
+                <div class="timeline-item"><h3>每一天</h3><p>从那以后，每天最想看到的人就是你，每天都在偷偷关注着你。</p></div>
+                <div class="timeline-item"><h3>今天</h3><p>终于鼓起勇气，把这些心里话告诉你。无论结果如何，我都不后悔。</p></div>
+            </div>
+        </div>
+
+        <div class="section scratch-section">
+            <h2>🎁 刮开惊喜</h2>
+            <p style="color:#888; margin-bottom:20px;">用手指或鼠标刮开灰色区域</p>
+            <div class="scratch-card" id="scratchCard">
+                <div class="scratch-result">🎉 恭喜你！<br>获得了一个<br>永远爱你的人 💕</div>
+                <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+            </div>
+        </div>
+
+        <div class="section calculator-section">
+            <h2>💘 爱情计算器</h2>
+            <div class="love-calculator">
+                <input type="text" id="name1" placeholder="你的名字">
+                <input type="text" id="name2" placeholder="TA的名字">
+                <button id="calcBtn">计算爱情指数 💕</button>
+                <div class="love-result" id="loveResult"></div>
+                <div class="love-bar"><div class="love-bar-fill" id="loveBarFill"></div></div>
+            </div>
+        </div>
+
+        <div class="section wish-section">
+            <h2>⭐ 为你许下心愿</h2>
+            <p style="color:#888; margin-bottom:20px;">点击星星，看看我的心愿</p>
+            <div class="stars-container" id="starsContainer">
+                <span class="star">⭐</span>
+                <span class="star">⭐</span>
+                <span class="star">⭐</span>
+                <span class="star">⭐</span>
+                <span class="star">⭐</span>
+            </div>
+            <div class="wish-message" id="wishMessage"></div>
+        </div>
+
+        <div class="section puzzle-section">
+            <h2>🧩 爱的拼图</h2>
+            <p style="color:#888; margin-bottom:20px;">点击翻开每块拼图，看看隐藏的话</p>
+            <div class="puzzle-grid" id="puzzleGrid">
+                <div class="puzzle-piece" data-text="我">?</div>
+                <div class="puzzle-piece" data-text="喜">?</div>
+                <div class="puzzle-piece" data-text="欢">?</div>
+                <div class="puzzle-piece" data-text="你">?</div>
+                <div class="puzzle-piece" data-text="很">?</div>
+                <div class="puzzle-piece" data-text="多">?</div>
+                <div class="puzzle-piece" data-text="很">?</div>
+                <div class="puzzle-piece" data-text="多">?</div>
+                <div class="puzzle-piece" data-text="❤️">?</div>
+            </div>
+            <div class="puzzle-message" id="puzzleMessage"></div>
+        </div>
+
+        <div class="section toggle-section">
+            <h2>你感受到我的爱了吗？</h2>
+            <div class="love-toggle" id="loveToggle">
+                <div class="toggle-ball">💗</div>
+            </div>
+            <div class="toggle-text" id="toggleText">点击开关试试~</div>
+        </div>
+
+        <div class="question-section">
+            <h2>💕 你愿意做我的女朋友吗？ 💕</h2>
+            <div class="btn-group">
+                <button class="btn-yes" id="btnYes">愿意 💕</button>
+                <button class="btn-no" id="btnNo">不要</button>
+            </div>
+            <p id="noHint"></p>
         </div>
     </div>
 
-    <!-- 头部 -->
-    <header class="header">
-        <h1>🎀 粉色梦幻乐园 🎀</h1>
-        <p>Every Pink Moment is for You</p>
-        <p class="subtitle">✨ 20+互动功能 · 专属粉色浪漫空间 ✨</p>
-    </header>
-
-    <!-- 功能导航菜单 -->
-    <section class="nav-menu">
-        <div class="nav-grid">
-            <div class="nav-item" onclick="scrollToSection('heart-section')">
-                <i class="fas fa-heart"></i>
-                <span>3D爱心</span>
-            </div>
-            <div class="nav-item" onclick="scrollToSection('game-section')">
-                <i class="fas fa-gamepad"></i>
-                <span>记忆游戏</span>
-            </div>
-            <div class="nav-item" onclick="scrollToSection('typewriter-section')">
-                <i class="fas fa-pen-nib"></i>
-                <span>打字机</span>
-            </div>
-            <div class="nav-item" onclick="scrollToSection('wishes-section')">
-                <i class="fas fa-coins"></i>
-                <span>许愿池</span>
-            </div>
-            <div class="nav-item" onclick="scrollToSection('generator-section')">
-                <i class="fas fa-magic"></i>
-                <span>情话生成</span>
-            </div>
-            <div class="nav-item" onclick="scrollToSection('countdown-section')">
-                <i class="fas fa-clock"></i>
-                <span>倒计时</span>
-            </div>
-            <div class="nav-item" onclick="scrollToSection('album-section')">
-                <i class="fas fa-images"></i>
-                <span>相册</span>
-            </div>
-            <div class="nav-item" onclick="scrollToSection('message-section')">
-                <i class="fas fa-comment"></i>
-                <span>留言板</span>
-            </div>
-            <div class="nav-item" onclick="createPinkRain()">
-                <i class="fas fa-cloud-rain"></i>
-                <span>粉色雨</span>
-            </div>
-            <div class="nav-item" onclick="showStats()">
-                <i class="fas fa-chart-line"></i>
-                <span>数据</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3D粉色爱心 -->
-    <section class="heart-section" id="heart-section">
-        <div class="heart-3d-container">
-            <div class="heart-3d">
-                <div class="heart-petal"></div>
-                <div class="heart-petal"></div>
-                <div class="heart-petal"></div>
-                <div class="heart-petal"></div>
-                <div class="heart-bottom"></div>
-            </div>
-            <div class="heart-shadow"></div>
-        </div>
-        <p class="heart-text">
-            你是我心中永不凋谢的粉色玫瑰，<br>
-            每一次跳动都为你而存在。💕
-        </p>
-    </section>
-
-    <!-- 粉色记忆游戏 -->
-    <section class="game-section" id="game-section">
-        <h2 class="section-title">🎮 粉色记忆配对游戏</h2>
-        <div class="memory-game" id="memoryGame"></div>
-        <p class="game-info" id="gameInfo">点击卡片进行配对，测试你的记忆力！</p>
-    </section>
-
-    <!-- 粉色打字机 -->
-    <section class="typewriter-section" id="typewriter-section">
-        <h2 class="section-title">📝 温柔正在书写</h2>
-        <div class="typewriter-box">
-            <div class="typewriter-text">
-                <span id="typewriterText"></span>
-                <span class="typewriter-cursor"></span>
-            </div>
-            <button class="typewriter-btn" onclick="startTypewriter()">
-                <i class="fas fa-sync-alt"></i> 换一句温柔
-            </button>
-        </div>
-    </section>
-
-    <!-- 粉色许愿池 -->
-    <section class="wishes-section" id="wishes-section">
-        <h2 class="section-title">🌟 粉色许愿池</h2>
-        <div class="wish-pool">
-            <div class="coin">
-                <i class="fas fa-coins"></i>
-            </div>
-            <input type="text" class="wish-input" id="wishInput" placeholder="✨ 写下你的愿望...">
-            <button class="wish-btn" onclick="makeWish()">
-                <i class="fas fa-paper-plane"></i> 投入许愿池
-            </button>
-            <div class="wish-history" id="wishHistory"></div>
-        </div>
-    </section>
-
-    <!-- 粉色情话生成器 -->
-    <section class="generator-section" id="generator-section">
-        <h2 class="section-title">💌 浪漫情话生成器</h2>
-        <div class="generator-box">
-            <div class="generator-result" id="generatorResult">
-                点击下方按钮，获取今日专属浪漫情话 💕
-            </div>
-            <button class="generator-btn" onclick="generateLove()">
-                <i class="fas fa-magic"></i> 生成情话
-            </button>
-        </div>
-    </section>
-
-    <!-- 粉色倒计时 -->
-    <section class="countdown-section" id="countdown-section">
-        <h2 class="section-title">⏰ 特别日子倒计时</h2>
-        <div class="countdown-box">
-            <div class="countdown-title">距离我们的纪念日还有</div>
-            <div class="countdown-grid">
-                <div class="countdown-item">
-                    <div class="countdown-number" id="days">00</div>
-                    <div class="countdown-label">天</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="hours">00</div>
-                    <div class="countdown-label">时</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="minutes">00</div>
-                    <div class="countdown-label">分</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="seconds">00</div>
-                    <div class="countdown-label">秒</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 粉色相册展示 -->
-    <section class="album-section" id="album-section">
-        <h2 class="section-title">📸 美好回忆相册</h2>
-        <div class="album-grid">
-            <div class="album-item"><i class="fas fa-heart"></i></div>
-            <div class="album-item"><i class="fas fa-star"></i></div>
-            <div class="album-item"><i class="fas fa-moon"></i></div>
-            <div class="album-item"><i class="fas fa-sun"></i></div>
-            <div class="album-item"><i class="fas fa-cloud"></i></div>
-            <div class="album-item"><i class="fas fa-flower"></i></div>
-            <div class="album-item"><i class="fas fa-butterfly"></i></div>
-            <div class="album-item"><i class="fas fa-gift"></i></div>
-            <div class="album-item"><i class="fas fa-ring"></i></div>
-        </div>
-    </section>
-
-    <!-- 粉色留言板 -->
-    <section class="message-section" id="message-section">
-        <h2 class="section-title">💭 甜蜜留言板</h2>
-        <div class="message-box">
-            <textarea id="messageInput" placeholder="✨ 写下你想说的话..."></textarea>
-            <button class="message-btn" onclick="sendMessage()">
-                <i class="fas fa-paper-plane"></i> 发送消息
-            </button>
-            <div class="message-list" id="messageList"></div>
-        </div>
-    </section>
-
-    <!-- 底部 -->
-    <footer class="footer">
-        <p>In this pink wonderland,<br>every moment is crafted just for you.</p>
-        <p class="signature">—— With All My Love 💕</p>
-    </footer>
+    <!-- 成功页 -->
+    <div class="success-page" id="successPage">
+        <h1>🎉 我们在一起了！🎉</h1>
+        <p>从今以后，你是我的全世界 💕</p>
+        <p style="margin-top:20px; font-size:1.2rem; animation: fadeInUp 1s ease-out 0.6s both;">我会好好珍惜你的 ❤️</p>
+    </div>
 
     <script>
-        // 全局变量
-        let loveCount = 0;
-        let typewriterInterval = null;
-        let isMusicPlaying = false;
-        let gameCards = [];
-        let flippedCards = [];
-        let matchedPairs = 0;
-        let wishes = [];
-        let messages = [];
+        // === 1. 开场信封 ===
+        const envelopeContainer = document.getElementById('envelopeContainer');
+        const envelope = document.getElementById('envelope');
+        const mainContent = document.getElementById('mainContent');
 
-        // 星空背景
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        function openEnvelope() {
+            envelopeContainer.classList.add('opened');
+            
+            setTimeout(() => {
+                envelopeContainer.style.display = 'none';
+                
+                // 🐛 核心修复：先改 display，再用 requestAnimationFrame 确保浏览器渲染一帧后，再添加 show 类触发 opacity 动画
+                mainContent.style.display = 'block';
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        mainContent.classList.add('show');
+                    });
+                });
+                
+                // 延迟初始化依赖 DOM 尺寸的组件
+                setTimeout(() => {
+                    initTypewriter();
+                    initScratchCard();
+                    initTimelineObserver();
+                    createBubbles();
+                    startFalling();
+                }, 300);
+            }, 800);
+        }
+        
+        envelope.addEventListener('click', openEnvelope);
 
-        class PinkStar {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.3;
-                this.speed = Math.random() * 0.3 + 0.05;
-                this.brightness = Math.random() * 30 + 70;
-                this.twinkleSpeed = Math.random() * 0.03 + 0.01;
-                this.twinkleDir = 1;
-                this.color = ['#ff69b4', '#ff1493', '#da70d6', '#ffb6c1'][Math.floor(Math.random() * 4)];
-            }
-
-            update() {
-                this.y += this.speed;
-                if (this.y > canvas.height) {
-                    this.y = 0;
-                    this.x = Math.random() * canvas.width;
-                }
-
-                this.brightness += this.twinkleSpeed * this.twinkleDir;
-                if (this.brightness > 100 || this.brightness < 70) {
-                    this.twinkleDir *= -1;
-                }
-            }
-
-            draw() {
-                ctx.fillStyle = `${this.color}${Math.floor(this.brightness).toString(16).padStart(2, '0')}`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+        // === 2. 飘落效果 ===
+        function startFalling() {
+            const items = ['💕', '💗', '💖', '🌸', '🩷', '✨', '💝', '🌷'];
+            setInterval(() => {
+                const item = document.createElement('div');
+                item.className = 'falling-item';
+                item.textContent = items[Math.floor(Math.random() * items.length)];
+                item.style.left = Math.random() * 100 + 'vw';
+                item.style.fontSize = (Math.random() * 20 + 14) + 'px';
+                item.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                item.style.opacity = Math.random() * 0.6 + 0.3;
+                document.body.appendChild(item);
+                setTimeout(() => item.remove(), 10000);
+            }, 600);
         }
 
-        const pinkStars = [];
-        for (let i = 0; i < 150; i++) {
-            pinkStars.push(new PinkStar());
-        }
-
-        function animatePinkStars() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            pinkStars.forEach(star => {
-                star.update();
-                star.draw();
-            });
-            requestAnimationFrame(animatePinkStars);
-        }
-
-        animatePinkStars();
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        // === 3. 点击爱心 ===
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.envelope-container') || e.target.closest('.success-page') || e.target.closest('input')) return;
+            const hearts = ['💕', '💗', '💖', '❤️', '💝', '🩷'];
+            for (let i = 0; i < 3; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'click-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = (e.clientX + (Math.random() - 0.5) * 40) + 'px';
+                heart.style.top = e.clientY + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1500);
+            }
         });
 
-        // 飘落粉色花瓣
-        function createPinkPetal() {
-            const petal = document.createElement('div');
-            petal.classList.add('pink-petal');
-            petal.innerHTML = ['🌸', '💮', '🩷', '✿', '🌷', '🌹'][Math.floor(Math.random() * 6)];
-            petal.style.left = Math.random() * 100 + 'vw';
-            petal.style.fontSize = (Math.random() * 15 + 12) + 'px';
-            petal.style.animationDuration = (Math.random() * 8 + 12) + 's';
-            petal.style.animationDelay = Math.random() * 3 + 's';
-            document.body.appendChild(petal);
-
-            setTimeout(() => petal.remove(), 25000);
-        }
-
-        setInterval(createPinkPetal, 800);
-
-        // 粉色雨
-        function createPinkRain() {
-            for (let i = 0; i < 60; i++) {
-                setTimeout(() => {
-                    const petal = document.createElement('div');
-                    petal.classList.add('pink-petal');
-                    petal.innerHTML = '🌸';
-                    petal.style.left = Math.random() * 100 + 'vw';
-                    petal.style.fontSize = (Math.random() * 25 + 18) + 'px';
-                    petal.style.animationDuration = (Math.random() * 4 + 6) + 's';
-                    document.body.appendChild(petal);
-                    setTimeout(() => petal.remove(), 12000);
-                }, i * 80);
-            }
-            addLove(15);
-        }
-
-        // 点击页面生成爱心
-        document.addEventListener('click', function(e) {
-            if (e.target.tagName !== 'BUTTON' && !e.target.closest('.nav-item')) {
+        // === 4. 爱心爆炸 ===
+        const beatingHeart = document.getElementById('beatingHeart');
+        beatingHeart.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const rect = beatingHeart.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < 12; i++) {
                 const heart = document.createElement('div');
-                heart.classList.add('click-heart');
-                heart.innerHTML = ['💕', '💖', '💗', '💝', '✨', '🌸'][Math.floor(Math.random() * 6)];
-                heart.style.left = e.clientX + 'px';
-                heart.style.top = e.clientY + 'px';
+                heart.className = 'click-heart';
+                heart.textContent = '💕';
+                heart.style.left = centerX + 'px';
+                heart.style.top = centerY + 'px';
+                heart.style.fontSize = '30px';
+                
+                const angle = (i / 12) * Math.PI * 2;
+                const dist = 80 + Math.random() * 40;
+                
+                heart.animate([
+                    { transform: 'scale(0.5) translate(0, 0)', opacity: 1 },
+                    { transform: `scale(1.2) translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px)`, opacity: 0 }
+                ], { duration: 1000, easing: 'ease-out' });
+                
                 document.body.appendChild(heart);
                 setTimeout(() => heart.remove(), 1000);
             }
         });
 
-        // 滚动到指定区域
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-            addLove(1);
-        }
+        // === 5. 打字机效果 ===
+        function initTypewriter() {
+            const text = `亲爱的你：\n\n你好呀！当你看到这封信的时候，说明你对我来说是一个特别特别重要的人。\n\n我不知道从什么时候开始，你就悄悄住进了我的心里。也许是你的一个微笑，也许是你说的一句话，也许只是你不经意间的一个眼神...\n\n每天最期待的事情就是能看到你，哪怕只是远远地看你一眼，都能让我开心好久好久。\n\n我知道我可能不够完美，但是我会用我所有的真心来对你好。我想牵着你的手，陪你走过春夏秋冬；想在你难过的时候给你一个拥抱；想和你一起分享生活中的每一件小事。\n\n你愿意给我一个机会吗？让我成为那个守护你的人。\n\n永远喜欢你的人 💕`;
 
-        // 显示统计数据
-        function showStats() {
-            alert(`💖 你的浪漫数据 💖\n\n收集的浪漫值: ${loveCount}\n许下的愿望: ${wishes.length}\n发送的消息: ${messages.length}\n完成的游戏: ${matchedPairs > 0 ? 1 : 0}\n\n感谢你让这个粉色乐园更加美好！`);
-            addLove(2);
-        }
-
-        // 打字机效果
-        const typewriterSentences = [
-            "你是我生命中最美的粉色奇迹，每一个瞬间都为你而闪耀。",
-            "想和你一起看遍世间所有的粉色日出日落，直到白发苍苍。",
-            "你的眼睛里有粉色的星辰大海，是我永远看不够的风景。",
-            "世间所有的美好加起来，都不及你微笑时的万分之一粉色温柔。",
-            "你是春天里最温柔的粉色风，夏天里最清凉的粉色雨，秋天里最温暖的粉色阳光，冬天里最温暖的粉色炉火。",
-            "遇见你之前，我从未相信一见钟情；遇见你之后，我的世界变成了粉色。",
-            "你是我所有不期而遇中，最美丽的粉色意外，最珍贵的粉色礼物。",
-            "如果世界上有一千种美好，那你就是第一千零一种粉色独特。",
-            "我想把所有的粉色温柔都给你，把所有的粉色浪漫都写给你，把所有的粉色未来都许给你。",
-            "你是落日弥漫的粉色橘，天边透亮的粉色星，是我穷极一生做不完的粉色梦。",
-            "你站在桥上看风景，看风景的人在楼上看你。粉色明月装饰了你的窗子，你装饰了我的粉色梦。",
-            "你是我心中永不凋谢的粉色玫瑰，是夜空中最亮的粉色星，是生命中最美的粉色奇迹。"
-        ];
-
-        let currentSentenceIndex = -1;
-
-        function startTypewriter() {
-            const textEl = document.getElementById('typewriterText');
-            
-            if (typewriterInterval) {
-                clearInterval(typewriterInterval);
-            }
-
-            let newIndex;
-            do {
-                newIndex = Math.floor(Math.random() * typewriterSentences.length);
-            } while (newIndex === currentSentenceIndex && typewriterSentences.length > 1);
-            currentSentenceIndex = newIndex;
-
-            const sentence = typewriterSentences[currentSentenceIndex];
-            textEl.textContent = '';
+            const container = document.getElementById('typewriterText');
             let i = 0;
+            let isTyping = false;
 
-            typewriterInterval = setInterval(() => {
-                if (i < sentence.length) {
-                    textEl.textContent += sentence[i];
-                    i++;
-                } else {
-                    clearInterval(typewriterInterval);
-                    typewriterInterval = null;
-                }
-            }, 70);
-            
-            addLove(3);
-        }
-
-        // 许愿池
-        function makeWish() {
-            const input = document.getElementById('wishInput');
-            const wish = input.value.trim();
-            
-            if (wish) {
-                wishes.push(wish);
-                
-                const history = document.getElementById('wishHistory');
-                const wishItem = document.createElement('div');
-                wishItem.classList.add('wish-item');
-                wishItem.textContent = `✨ ${wish}`;
-                history.prepend(wishItem);
-                
-                input.value = '';
-                addLove(2);
-                
-                // 限制显示最近10条
-                if (history.children.length > 10) {
-                    history.removeChild(history.lastChild);
-                }
-            } else {
-                alert('✨ 请先写下你的愿望哦~');
-            }
-        }
-
-        // 情话生成器
-        const subjects = ["你的眼睛", "你的笑容", "你的温柔", "你的声音", "你的一切", "你的背影", "你的侧脸", "你发光的模样", "你的存在", "你的灵魂", "你的小手", "你的拥抱"];
-        const predicates = [
-            "像极了粉色的海棠花，未眠且动人，让我沉醉",
-            "是我见过最美的粉色风景，比所有日落都温柔，让我心动",
-            "让我想把全世界的粉色星星都摘下来，只为点缀你的夜空",
-            "是这世间最治愈的粉色良药，一剂便足以治愈我所有的伤痛",
-            "像粉色冬日里的暖阳，让人忍不住想要靠近，永远不离开",
-            "胜过世间万千粉色诗句，是我读不完的最美粉色篇章",
-            "如同粉色陈年佳酿，越品越让人沉醉，无法自拔",
-            "是我不小心闯进的粉色梦境，美得让我不舍得醒来",
-            "如粉色夜空中最亮的星，照亮我前行的每一步",
-            "似粉色春风拂面，温柔了岁月，惊艳了时光",
-            "如粉色樱花般绚烂，让我的世界瞬间变得美好",
-            "似粉色糖果般甜蜜，让我每天都充满期待"
-        ];
-
-        function generateLove() {
-            const result = document.getElementById('generatorResult');
-            const subject = subjects[Math.floor(Math.random() * subjects.length)];
-            const predicate = predicates[Math.floor(Math.random() * predicates.length)];
-            
-            result.style.opacity = '0';
-            setTimeout(() => {
-                result.textContent = `${subject}，${predicate}。 💕`;
-                result.style.opacity = '1';
-            }, 300);
-            
-            addLove(2);
-        }
-
-        // 留言板
-        function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const message = input.value.trim();
-            
-            if (message) {
-                messages.push(message);
-                
-                const list = document.getElementById('messageList');
-                const messageItem = document.createElement('div');
-                messageItem.classList.add('message-item');
-                messageItem.textContent = `💭 ${message}`;
-                list.prepend(messageItem);
-                
-                input.value = '';
-                addLove(2);
-                
-                // 限制显示最近15条
-                if (list.children.length > 15) {
-                    list.removeChild(list.lastChild);
-                }
-            } else {
-                alert('💭 请先写下你想说的话哦~');
-            }
-        }
-
-        // 倒计时
-        function updateCountdown() {
-            // 假设纪念日是明年今天
-            const now = new Date();
-            const nextYear = now.getFullYear() + 1;
-            const anniversary = new Date(nextYear, now.getMonth(), now.getDate());
-            
-            const diff = anniversary - now;
-            
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            document.getElementById('days').textContent = String(days).padStart(2, '0');
-            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-        }
-
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
-        // 记忆游戏
-        function initMemoryGame() {
-            const game = document.getElementById('memoryGame');
-            game.innerHTML = '';
-            
-            const emojis = ['💖', '💕', '💗', '💝', '🌸', '🌹', '🎀', '✨'];
-            gameCards = [...emojis, ...emojis];
-            gameCards.sort(() => Math.random() - 0.5);
-            
-            gameCards.forEach((emoji, index) => {
-                const card = document.createElement('div');
-                card.classList.add('memory-card');
-                card.dataset.index = index;
-                card.dataset.emoji = emoji;
-                card.onclick = () => flipCard(card);
-                game.appendChild(card);
-            });
-            
-            flippedCards = [];
-            matchedPairs = 0;
-        }
-
-        function flipCard(card) {
-            if (flippedCards.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
-                card.classList.add('flipped');
-                card.textContent = card.dataset.emoji;
-                flippedCards.push(card);
-                
-                if (flippedCards.length === 2) {
-                    setTimeout(() => {
-                        if (flippedCards[0].dataset.emoji === flippedCards[1].dataset.emoji) {
-                            flippedCards[0].classList.add('matched');
-                            flippedCards[1].classList.add('matched');
-                            matchedPairs++;
-                            document.getElementById('gameInfo').textContent = `太棒了！已配对 ${matchedPairs}/8`;
-                            
-                            if (matchedPairs === 8) {
-                                document.getElementById('gameInfo').textContent = '🎉 恭喜你完成游戏！你是最棒的！';
-                                addLove(10);
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !isTyping) {
+                    isTyping = true;
+                    container.innerHTML = '<span class="cursor"></span>';
+                    
+                    const timer = setInterval(() => {
+                        if (i < text.length) {
+                            const cursor = container.querySelector('.cursor');
+                            if (text[i] === '\n') {
+                                container.insertBefore(document.createElement('br'), cursor);
+                            } else {
+                                container.insertBefore(document.createTextNode(text[i]), cursor);
                             }
+                            i++;
                         } else {
-                            flippedCards[0].classList.remove('flipped');
-                            flippedCards[1].classList.remove('flipped');
-                            flippedCards[0].textContent = '';
-                            flippedCards[1].textContent = '';
+                            clearInterval(timer);
                         }
-                        flippedCards = [];
-                    }, 800);
+                    }, 50);
+                    observer.disconnect();
                 }
+            }, { threshold: 0.2 });
+
+            observer.observe(container);
+        }
+
+        // === 6. 卡片点击 ===
+        document.getElementById('reasonsGrid').addEventListener('click', (e) => {
+            const card = e.target.closest('.reason-card');
+            if (!card) return;
+            card.style.transform = 'scale(0.95)';
+            setTimeout(() => { card.style.transform = ''; }, 150);
+            
+            for (let i = 0; i < 5; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'click-heart';
+                particle.textContent = '✨';
+                const rect = card.getBoundingClientRect();
+                particle.style.left = (rect.left + Math.random() * rect.width) + 'px';
+                particle.style.top = (rect.top + Math.random() * rect.height) + 'px';
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 1500);
             }
-        }
-
-        // 爱心计数
-        function addLove(amount) {
-            loveCount += amount;
-            document.getElementById('loveCount').textContent = loveCount;
-            
-            // 更新进度条
-            const fillWidth = Math.min((loveCount / 1000) * 100, 100);
-            document.getElementById('loveFill').style.width = `${fillWidth}%`;
-            
-            // 数字变化动画
-            const countEl = document.getElementById('loveCount');
-            countEl.style.transform = 'scale(1.3)';
-            setTimeout(() => countEl.style.transform = 'scale(1)', 200);
-        }
-
-        // 音乐播放器（模拟）
-        document.getElementById('musicPlayer').addEventListener('click', function(e) {
-            e.stopPropagation();
-            isMusicPlaying = !isMusicPlaying;
-            this.classList.toggle('playing');
-            document.getElementById('musicIcon').classList.toggle('fa-pause');
         });
 
-        // 初始化记忆游戏
-        initMemoryGame();
+        // === 7. 时间线动画 ===
+        function initTimelineObserver() {
+            const items = document.querySelectorAll('.timeline-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.3 });
 
-        // 初始花瓣
-        for (let i = 0; i < 15; i++) {
-            setTimeout(createPinkPetal, i * 400);
+            items.forEach(item => observer.observe(item));
         }
 
-        // 自动开始打字机
-        setTimeout(startTypewriter, 1500);
+        // === 8. 刮刮卡 ===
+        function initScratchCard() {
+            const canvas = document.getElementById('scratchCanvas');
+            const card = document.getElementById('scratchCard');
+            if (!canvas || !card) return;
+
+            const ctx = canvas.getContext('2d');
+            const rect = card.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+
+            ctx.fillStyle = '#c0c0c0';
+            ctx.fillRect(0, 0, rect.width, rect.height);
+            
+            ctx.fillStyle = '#888';
+            ctx.font = `bold ${Math.floor(rect.width / 12)}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('刮开这里 🎁', rect.width / 2, rect.height / 2);
+
+            let isScratching = false;
+            let scratchedPixels = 0;
+            const totalPixels = rect.width * rect.height;
+
+            function scratch(x, y) {
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath();
+                ctx.arc(x, y, 20, 0, Math.PI * 2);
+                ctx.fill();
+                
+                scratchedPixels += Math.PI * 20 * 20;
+                if (scratchedPixels > totalPixels * 0.4) {
+                    canvas.style.transition = 'opacity 0.5s';
+                    canvas.style.opacity = '0';
+                    setTimeout(() => canvas.style.display = 'none', 500);
+                }
+            }
+
+            function getPos(e) {
+                const r = canvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: clientX - r.left, y: clientY - r.top };
+            }
+
+            canvas.addEventListener('mousedown', (e) => { isScratching = true; const pos = getPos(e); scratch(pos.x, pos.y); });
+            canvas.addEventListener('mousemove', (e) => { if(isScratching) { const pos = getPos(e); scratch(pos.x, pos.y); }});
+            canvas.addEventListener('mouseup', () => isScratching = false);
+            canvas.addEventListener('mouseleave', () => isScratching = false);
+
+            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); isScratching = true; const pos = getPos(e); scratch(pos.x, pos.y); }, {passive: false});
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); if(isScratching) { const pos = getPos(e); scratch(pos.x, pos.y); }}, {passive: false});
+            canvas.addEventListener('touchend', () => isScratching = false);
+        }
+
+        // === 9. 爱情计算器 ===
+        document.getElementById('calcBtn').addEventListener('click', () => {
+            const name1 = document.getElementById('name1').value || '我';
+            const name2 = document.getElementById('name2').value || '你';
+            const score = Math.floor(Math.random() * 5) + 96; 
+
+            document.getElementById('loveResult').innerHTML = `${name1} ❤️ ${name2}<br>爱情指数: <strong style="font-size:1.5em">${score}%</strong><br>💕 天生一对！`;
+            document.getElementById('loveBarFill').style.width = score + '%';
+        });
+
+        // === 10. 星星许愿 ===
+        const wishes = [
+            '希望每天都能看到你的笑容 😊',
+            '希望成为你最温暖的港湾 🏠',
+            '希望能牵着你的手走过每个季节 🍂',
+            '希望能在你难过时给你拥抱 🤗',
+            '希望能和你一起慢慢变老 👫'
+        ];
+        
+        document.getElementById('starsContainer').addEventListener('click', (e) => {
+            const star = e.target.closest('.star');
+            if (!star) return;
+            
+            const stars = document.querySelectorAll('.star');
+            const index = Array.from(stars).indexOf(star);
+            
+            stars.forEach((s, i) => {
+                if (i <= index) s.classList.add('active');
+                else s.classList.remove('active');
+            });
+            
+            document.getElementById('wishMessage').textContent = wishes[index];
+        });
+
+        // === 11. 拼图 ===
+        let revealedCount = 0;
+        document.getElementById('puzzleGrid').addEventListener('click', (e) => {
+            const piece = e.target.closest('.puzzle-piece');
+            if (!piece || piece.classList.contains('revealed')) return;
+            
+            piece.classList.add('revealed');
+            piece.textContent = piece.dataset.text;
+            revealedCount++;
+            
+            if (revealedCount === 9) {
+                document.getElementById('puzzleMessage').textContent = '💕 我喜欢你很多很多！💕';
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        const heart = document.createElement('div');
+                        heart.className = 'click-heart';
+                        heart.textContent = ['💕','💗','🎉','✨'][Math.floor(Math.random()*4)];
+                        heart.style.left = Math.random() * window.innerWidth + 'px';
+                        heart.style.top = Math.random() * window.innerHeight + 'px';
+                        heart.style.fontSize = '30px';
+                        document.body.appendChild(heart);
+                        setTimeout(() => heart.remove(), 1500);
+                    }, i * 100);
+                }
+            }
+        });
+
+        // === 12. 开关 ===
+        const loveToggle = document.getElementById('loveToggle');
+        const toggleText = document.getElementById('toggleText');
+        
+        loveToggle.addEventListener('click', () => {
+            loveToggle.classList.toggle('active');
+            if (loveToggle.classList.contains('active')) {
+                toggleText.textContent = '💕 感受到了！满满的爱！💕';
+                toggleText.style.fontSize = '1.4rem';
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => {
+                        const heart = document.createElement('div');
+                        heart.className = 'click-heart';
+                        heart.textContent = '💕';
+                        heart.style.left = Math.random() * window.innerWidth + 'px';
+                        heart.style.top = window.innerHeight * 0.5 + 'px';
+                        heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                        document.body.appendChild(heart);
+                        setTimeout(() => heart.remove(), 1500);
+                    }, i * 80);
+                }
+            } else {
+                toggleText.textContent = '点击开关试试~';
+                toggleText.style.fontSize = '1.2rem';
+            }
+        });
+
+        // === 13. 逃跑按钮 ===
+        let noCount = 0;
+        const btnNo = document.getElementById('btnNo');
+        const btnYes = document.getElementById('btnYes');
+        const noHint = document.getElementById('noHint');
+
+        function moveNoBtn() {
+            noCount++;
+            const maxX = window.innerWidth - btnNo.offsetWidth - 20;
+            const maxY = window.innerHeight - btnNo.offsetHeight - 20;
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = x + 'px';
+            btnNo.style.top = y + 'px';
+            btnNo.style.zIndex = '9999';
+
+            const hints = [
+                '嘿嘿，你抓不到我~', '别点这个啦！', '你应该点另一个按钮哦~',
+                '这个按钮害羞了~', '快说愿意嘛！🥺', '再点我就跑更快了！', '不如点"愿意"吧？💕'
+            ];
+            noHint.textContent = hints[Math.min(noCount - 1, hints.length - 1)];
+
+            const scale = 1 + noCount * 0.15;
+            btnYes.style.transform = `scale(${Math.min(scale, 2.5)})`;
+        }
+        
+        btnNo.addEventListener('mouseover', moveNoBtn);
+        btnNo.addEventListener('touchstart', (e) => { e.preventDefault(); moveNoBtn(); }, {passive: false});
+        btnNo.addEventListener('click', moveNoBtn);
+
+        // === 14. 同意按钮 ===
+        btnYes.addEventListener('click', () => {
+            document.getElementById('successPage').classList.add('show');
+            createFireworks();
+        });
+
+        // === 15. 烟花 ===
+        function createFireworks() {
+            const colors = ['#ff69b4', '#ff1493', '#ffb6c1', '#ff6b9d', '#ffd700', '#ff4500', '#ff6347', '#fff'];
+            let count = 0;
+            const interval = setInterval(() => {
+                if (count > 40) { clearInterval(interval); return; }
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight * 0.7;
+                for (let i = 0; i < 24; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'firework';
+                    particle.style.left = x + 'px';
+                    particle.style.top = y + 'px';
+                    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    const angle = (i / 24) * Math.PI * 2;
+                    const dist = Math.random() * 120 + 60;
+                    particle.animate([
+                        { transform: 'scale(1) translate(0, 0)', opacity: 1 },
+                        { transform: `scale(0.2) translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px)`, opacity: 0 }
+                    ], { duration: 1500 + Math.random() * 500, easing: 'cubic-bezier(0, .9, .5, 1)' });
+                    document.body.appendChild(particle);
+                    setTimeout(() => particle.remove(), 2000);
+                }
+                count++;
+            }, 300);
+        }
+
+        // === 16. 漂浮气泡 ===
+        function createBubbles() {
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes float {
+                    0%, 100% { transform: translate(0, 0) scale(1); }
+                    25% { transform: translate(30px, -30px) scale(1.1); }
+                    50% { transform: translate(-20px, 20px) scale(0.9); }
+                    75% { transform: translate(20px, 10px) scale(1.05); }
+                }
+            `;
+            document.head.appendChild(style);
+
+            for (let i = 0; i < 6; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 100 + 50;
+                bubble.style.width = size + 'px';
+                bubble.style.height = size + 'px';
+                bubble.style.left = Math.random() * 100 + 'vw';
+                bubble.style.top = Math.random() * 100 + 'vh';
+                bubble.style.background = `radial-gradient(circle, rgba(255,105,180,0.2), transparent)`;
+                bubble.style.animation = `float ${Math.random() * 10 + 10}s ease-in-out infinite`;
+                document.body.appendChild(bubble);
+            }
+        }
+
+        // === 17. 音乐控制 ===
+        let audioCtx = null;
+        let isPlaying = false;
+        const musicBtn = document.getElementById('musicBtn');
+
+        musicBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            musicBtn.classList.toggle('playing');
+            
+            if (isPlaying) {
+                musicBtn.textContent = '🎶';
+                playMelody();
+            } else {
+                musicBtn.textContent = '🎵';
+                if (audioCtx) {
+                    audioCtx.close();
+                    audioCtx = null;
+                }
+            }
+        });
+
+        function playMelody() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            const melody = [
+                {f: 523, d: 0.4}, {f: 659, d: 0.4}, {f: 784, d: 0.8}, 
+                {f: 659, d: 0.4}, {f: 784, d: 0.4}, {f: 880, d: 0.8},
+                {f: 784, d: 0.4}, {f: 659, d: 0.4}, {f: 523, d: 0.8},
+                {f: 587, d: 0.4}, {f: 523, d: 0.4}, {f: 493, d: 0.8},
+                {f: 523, d: 1.2}
+            ];
+
+            let time = audioCtx.currentTime;
+            melody.forEach(note => {
+                if (!isPlaying) return;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.type = 'sine';
+                osc.frequency.value = note.f;
+                gain.gain.setValueAtTime(0.08, time);
+                gain.gain.exponentialRampToValueAtTime(0.001, time + note.d);
+                osc.start(time);
+                osc.stop(time + note.d);
+                time += note.d;
+            });
+            
+            setTimeout(() => {
+                if (isPlaying) playMelody();
+            }, time * 1000 - audioCtx.currentTime * 1000 + 500);
+        }
+
+        // === 18. 滚动进度条 ===
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (scrollHeight > 0) {
+                const progress = (scrollTop / scrollHeight) * 100;
+                document.getElementById('progressBar').style.width = progress + '%';
+            }
+        });
     </script>
 </body>
 </html>
