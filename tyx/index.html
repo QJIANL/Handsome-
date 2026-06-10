@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>To Tang Yuxin 💌 10.1</title>
+    <style>
+        :root{--bg:#0a0a0c;--card:rgba(20,20,25,.6);--border:rgba(255,255,255,.08);--text:#e2e2e5;--sub:rgba(255,255,255,.5);--accent:#ff7eb3;--accent2:#7afcff;--gold:#d4af37}
+        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        body{background:var(--bg);color:var(--text);font-family:"SF Pro Display",-apple-system,"PingFang SC",sans-serif;overflow-x:hidden;min-height:100vh;position:relative}
+        .bg-aurora{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 20% 20%,rgba(255,126,179,.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(122,252,255,.05) 0%,transparent 50%);transition:background 1.5s}
+        .bg-noise{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+        .bg-canvas{position:fixed;inset:0;pointer-events:none}
+        #ptc{z-index:3}#fw{z-index:1500}
+        .lock{position:fixed;inset:0;z-index:9998;background:rgba(10,10,12,.98);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:1s cubic-bezier(.77,0,.18,1)}
+        .lock.gone{opacity:0;visibility:hidden;pointer-events:none}
+        .lock-icon{width:100px;height:100px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:48px;cursor:pointer;user-select:none;touch-action:none;animation:pulse 2s ease-in-out infinite;position:relative;z-index:2}
+        .lock-tip{margin-top:24px;font-size:.8rem;color:var(--sub);letter-spacing:6px;animation:fadeBlink 3s infinite;z-index:2}
+        .progress-ring{position:absolute;width:120px;height:120px;border-radius:50%;border:1px solid transparent;border-top-color:var(--accent);opacity:0;transition:opacity .3s;z-index:1}
+        .lock-icon.pressing+.progress-ring{opacity:1;animation:spin .8s linear infinite}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes fadeBlink{0%,100%{opacity:.3}50%{opacity:1}}
+        .main{position:relative;z-index:10;max-width:600px;margin:0 auto;padding:60px 24px 40px;opacity:0;transform:translateY(30px);transition:all 1.5s cubic-bezier(.23,1,.32,1)}
+        .main.show{opacity:1;transform:none}
+        .tag{display:inline-block;padding:4px 12px;border-radius:4px;font-size:.65rem;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.3);color:var(--gold);letter-spacing:4px;margin-bottom:20px;font-weight:500}
+        h1{font-size:2.8rem;font-weight:700;line-height:1.2;margin-bottom:12px;letter-spacing:-1px;background:linear-gradient(135deg,#fff 30%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .intro{font-size:.95rem;color:var(--sub);line-height:2;min-height:3em;font-weight:300}
+        .card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:28px;margin:24px 0;box-shadow:0 4px 24px rgba(0,0,0,.1)}
+        .card-title{font-size:.7rem;color:var(--sub);letter-spacing:4px;margin-bottom:20px;text-transform:uppercase;font-weight:500}
+        .audio-ctrl{display:flex;gap:12px;margin:20px 0}
+        .audio-btn{flex:1;padding:16px;border-radius:16px;border:1px dashed var(--border);background:var(--card);color:var(--sub);font-size:.9rem;font-weight:500;cursor:pointer;text-align:center;transition:.3s;display:flex;align-items:center;justify-content:center;gap:8px}
+        .audio-btn:active{transform:scale(.98)}
+        .audio-btn.playing{border-style:solid;background:rgba(122,252,255,.08);border-color:var(--accent2);color:var(--accent2)}
+        .vis{display:flex;align-items:flex-end;gap:2px;height:14px}
+        .vb{width:2px;background:currentColor;border-radius:2px;animation:vBar .8s ease-in-out infinite}
+        .vb:nth-child(2){animation-delay:.1s}.vb:nth-child(3){animation-delay:.2s}.vb:nth-child(4){animation-delay:.3s}.vb:nth-child(5){animation-delay:.15s}
+        .paused .vb{animation:none!important;height:2px!important}
+        @keyframes vBar{0%,100%{height:2px}50%{height:14px}}
+        .timer-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center}
+        .t-num{font-size:2rem;font-weight:200;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-1px}
+        .t-lbl{font-size:.6rem;color:var(--sub);margin-top:4px;letter-spacing:2px}
+        .letter-wrap{perspective:800px;cursor:pointer;margin:24px 0}
+        .envelope{position:relative;min-height:220px;background:linear-gradient(145deg,rgba(255,126,179,.05),rgba(122,252,255,.02));border:1px solid var(--border);border-radius:20px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;transition:transform .6s;transform-style:preserve-3d;overflow:hidden}
+        .envelope.opened{transform:rotateX(-2deg)}
+        .env-icon{font-size:2.5rem;transition:.6s}
+        .envelope.opened .env-icon{transform:translateY(-30px) scale(1.2);opacity:0;position:absolute}
+        .env-text{font-size:.85rem;color:var(--sub);transition:.4s;letter-spacing:2px}
+        .envelope.opened .env-text{opacity:0;position:absolute}
+        .letter-content{padding:24px;font-size:.9rem;line-height:2.2;color:rgba(255,255,255,.8);opacity:0;transform:translateY(20px);transition:all .8s .3s;max-height:320px;overflow-y:auto;font-weight:300}
+        .envelope.opened .letter-content{opacity:1;transform:none}
+        .chat{max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:4px;scroll-behavior:smooth}
+        .msg{max-width:82%;padding:12px 18px;border-radius:18px;font-size:.88rem;line-height:1.7;opacity:0;transform:translateY(12px);animation:msgPop .4s forwards;word-break:break-word}
+        .msg.l{align-self:flex-start;background:rgba(255,255,255,.05);border:1px solid var(--border);border-bottom-left-radius:4px}
+        .msg.r{align-self:flex-end;background:linear-gradient(135deg,#ff7eb3,#ff758c);border-bottom-right-radius:4px}
+        @keyframes msgPop{to{opacity:1;transform:none}}
+        .heart-game{text-align:center}
+        .heart-btn{width:70px;height:70px;border-radius:50%;border:1px solid var(--border);background:rgba(255,126,179,.1);font-size:1.8rem;cursor:pointer;transition:transform .15s;margin:0 auto 16px;display:flex;align-items:center;justify-content:center}
+        .heart-btn:active{transform:scale(.9)}
+        .bar-wrap{height:4px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden;margin:12px 0}
+        .bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .3s}
+        .heart-msg{font-size:.85rem;color:var(--sub);min-height:1.4em;transition:.3s}
+        .heart-done{animation:glowPulse 1.5s ease-in-out infinite alternate}
+        @keyframes glowPulse{from{text-shadow:0 0 8px var(--accent)}to{text-shadow:0 0 20px var(--accent)}}
+        .vinyl-wrap{display:flex;flex-direction:column;align-items:center;gap:20px}
+        .vinyl-disc{width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 50% 50%,#222 20%,#111 21%,#111 22%,#000 23%,#000 100%);box-shadow:0 10px 30px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;position:relative;transition:transform 0.1s linear}
+        .vinyl-disc.spinning{animation:spinVinyl 3s linear infinite}
+        .vinyl-label{width:50px;height:50px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+        .vinyl-disc::before{content:'';position:absolute;inset:10px;border-radius:50%;border:1px dashed rgba(255,255,255,.1)}
+        @keyframes spinVinyl{to{transform:rotate(360deg)}}
+        .vinyl-subtitle{font-size:.9rem;color:#fff;min-height:2em;text-align:center;transition:opacity .5s;line-height:1.8;max-width:80%}
+        .coupon-slider{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:16px;padding:10px 0;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+        .coupon-slider::-webkit-scrollbar{display:none}
+        .coupon{flex:0 0 85%;scroll-snap-align:center;height:140px;border-radius:16px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;transition:transform .3s}
+        .coupon::before,.coupon::after{content:'';position:absolute;top:50%;transform:translateY(-50%);width:20px;height:20px;background:var(--bg);border-radius:50%}
+        .coupon::before{right:-10px}.coupon::after{left:-10px}
+        .coupon-1{background:linear-gradient(135deg,rgba(255,126,179,.2),rgba(255,126,179,.05));border:1px solid rgba(255,126,179,.3)}
+        .coupon-2{background:linear-gradient(135deg,rgba(122,252,255,.2),rgba(122,252,255,.05));border:1px solid rgba(122,252,255,.3)}
+        .coupon-3{background:linear-gradient(135deg,rgba(212,175,55,.2),rgba(212,175,55,.05));border:1px solid rgba(212,175,55,.3)}
+        .coupon-title{font-size:1.1rem;font-weight:600}
+        .coupon-desc{font-size:.8rem;color:var(--sub);line-height:1.6}
+        .coupon-use{align-self:flex-end;padding:6px 14px;border-radius:20px;background:rgba(255,255,255,.1);border:1px solid var(--border);font-size:.75rem;cursor:pointer;color:#fff;transition:.2s}
+        .coupon-use:active{transform:scale(.95)}
+        .coupon.used{opacity:.4;pointer-events:none}
+        .star-wrap{position:relative;width:100%;height:220px;border-radius:16px;overflow:hidden;background:rgba(0,0,0,.3)}
+        #starCanvas{width:100%;height:100%;cursor:crosshair;display:block;touch-action:none;pointer-events:auto !important;position:relative;z-index:2}
+        .star-hint{text-align:center;font-size:.8rem;color:var(--sub);margin-top:10px}
+        .time-slider{width:100%;-webkit-appearance:none;height:2px;border-radius:2px;background:var(--border);outline:none;margin:20px 0}
+        .time-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 0 10px var(--accent);cursor:pointer}
+        .time-text{font-size:.9rem;line-height:1.8;color:rgba(255,255,255,.8);text-align:center;min-height:4em;transition:all .5s;font-weight:300}
+        .time-labels{display:flex;justify-content:space-between;font-size:.7rem;color:var(--sub);margin-top:-10px}
+        .danmaku-area{position:relative;height:160px;overflow:hidden;border-radius:16px;background:rgba(0,0,0,.2)}
+        .dm{position:absolute;white-space:nowrap;font-size:.8rem;padding:6px 14px;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:rgba(255,255,255,.7);animation:dmFloat linear forwards;pointer-events:none}
+        @keyframes dmFloat{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
+        .dm-input{display:flex;gap:8px;margin-top:12px}
+        .dm-input input{flex:1;padding:12px 16px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:#fff;font-size:.85rem;outline:none}
+        .dm-input input::placeholder{color:var(--sub)}
+        .dm-input button{padding:12px 20px;border-radius:12px;border:none;background:#fff;color:#000;font-weight:600;cursor:pointer;font-size:.85rem}
+        .scratch-wrap{position:relative;width:100%;height:140px;border-radius:16px;overflow:hidden;touch-action:none}
+        #scratchCanvas{position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;display:block;touch-action:none;pointer-events:auto !important;z-index:5}
+        .scratch-bg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,126,179,.1),rgba(122,252,255,.1));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:300;font-size:1rem;text-align:center;padding:20px;line-height:1.8;z-index:1}
+        .vow-box{text-align:center}
+        .vow-text{font-size:1.1rem;line-height:2;color:#fff;min-height:4em;margin-bottom:20px;font-weight:300;transition:.4s}
+        .vow-btn{padding:12px 28px;border-radius:30px;border:1px solid var(--border);background:var(--card);color:#fff;font-size:.85rem;cursor:pointer;transition:.3s;letter-spacing:2px}
+        .actions{display:flex;gap:10px;margin:24px 0;flex-wrap:wrap}
+        .act-btn{flex:1;min-width:90px;padding:14px;border:none;border-radius:14px;font-size:.8rem;font-weight:500;cursor:pointer;color:#fff;background:var(--card);border:1px solid var(--border);transition:.3s;display:flex;align-items:center;justify-content:center;gap:6px;letter-spacing:1px}
+        .act-btn.pri{background:linear-gradient(135deg,#ff7eb3,#ff758c);border:none}
+        .roses{position:fixed;inset:0;z-index:2000;pointer-events:none;overflow:hidden}
+        .rose{position:absolute;top:-60px;animation:rFall linear forwards}
+        @keyframes rFall{to{top:110vh;transform:rotate(360deg);opacity:0}}
+        .shake-toast{position:fixed;top:20%;left:50%;transform:translateX(-50%);background:rgba(20,20,25,.9);color:#fff;padding:12px 24px;border-radius:30px;font-size:.85rem;z-index:3000;opacity:0;transition:opacity .5s;pointer-events:none;border:1px solid var(--border);white-space:nowrap}
+        .shake-toast.show{opacity:1}
+        .footer{text-align:center;padding:40px 0;font-size:.65rem;color:var(--sub);letter-spacing:4px}
+        @media(max-width:400px){h1{font-size:2.2rem}.t-num{font-size:1.6rem}}
+    </style>
+</head>
+<body>
+<div class="bg-aurora" id="bgLayer"></div>
+<div class="bg-noise"></div>
+<canvas class="bg-canvas" id="ptc"></canvas>
+<canvas class="bg-canvas" id="fw"></canvas>
+
+<div class="lock" id="lock">
+    <div class="lock-icon" id="lockBtn">💌</div>
+    <div class="progress-ring"></div>
+    <div class="lock-tip">LONG PRESS TO UNLOCK</div>
+</div>
+
+<div class="roses" id="roseBox"></div>
+<div class="shake-toast" id="shakeToast"></div>
+
+<div class="main" id="main">
+    <div class="tag">EXCLUSIVE COLLECTION · 2026</div>
+    <h1>To Tang Yuxin</h1>
+    <div class="intro" id="tw"></div>
+
+    <div class="audio-ctrl">
+        <button class="audio-btn paused" id="bgmBtn" onclick="toggleMusic()">
+            <div class="vis" id="mVis"><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div></div>
+            <span id="mLbl">BGM 已就绪</span>
+        </button>
+        <button class="audio-btn" id="voiceBtn" onclick="toggleVoice()">
+            🎙️ <span id="vLbl">播放语音</span>
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="card-title" id="timerLbl">⏱ TIME TOGETHER</div>
+        <div class="timer-row">
+            <div><div class="t-num" id="td">0</div><div class="t-lbl">DAYS</div></div>
+            <div><div class="t-num" id="th">0</div><div class="t-lbl">HOURS</div></div>
+            <div><div class="t-num" id="tm">0</div><div class="t-lbl">MINS</div></div>
+            <div><div class="t-num" id="ts">0</div><div class="t-lbl">SECS</div></div>
+        </div>
+    </div>
+
+    <div class="card-title">💌 A LETTER FOR YOU</div>
+    <div class="letter-wrap" onclick="openLetter()">
+        <div class="envelope" id="envelope">
+            <span class="env-icon">💌</span>
+            <span class="env-text">TAP TO OPEN</span>
+            <div class="letter-content">
+                亲爱的雨欣：<br><br>
+                提笔写这封信的时候，窗外刚好吹过一阵风。我想，如果是你在身边，这阵风应该会是甜的吧。<br><br>
+                你说你只是普通的女孩，可你不知道，你笑起来的时候，我整个世界都亮了。你皱眉的样子、发呆的样子、认真吃饭的样子，我都偷偷记在心里，比任何风景都值得珍藏。<br><br>
+                我不擅长说漂亮话，但我擅长在你需要的时候出现。我贪心地想要参与你的每一个明天，想和你一起把平淡的日子过得闪闪发光。<br><br>
+                这封信没有结尾，因为我对你的喜欢，永远写不完。<br><br>
+                <span style="color:var(--accent)">—— 永远属于你的那个人 ❤️</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">💬 SECRET MESSAGES</div>
+        <div class="chat" id="chat"></div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">🎙️ VOICE MESSAGE</div>
+        <div class="vinyl-wrap">
+            <div class="vinyl-disc" id="vinylDisc"><div class="vinyl-label">🎵</div></div>
+            <div class="vinyl-subtitle" id="vinylSub">点击顶部语音按钮，听听我想对你说的话...</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">🎫 LOVE COUPONS (SWIPE)</div>
+        <div class="coupon-slider">
+            <div class="coupon coupon-1" id="c1">
+                <div class="coupon-title">🛡️ 无条件原谅券</div>
+                <div class="coupon-desc">无论我多生气，只要出示此券，立刻和好，并且请你喝奶茶。</div>
+                <button class="coupon-use" onclick="useCoupon('c1')">撕下使用</button>
+            </div>
+            <div class="coupon coupon-2" id="c2">
+                <div class="coupon-title">💆‍♀️ 专属按摩券</div>
+                <div class="coupon-desc">兑换 30 分钟肩颈/腿部按摩，力度由你指定，绝不偷懒。</div>
+                <button class="coupon-use" onclick="useCoupon('c2')">撕下使用</button>
+            </div>
+            <div class="coupon coupon-3" id="c3">
+                <div class="coupon-title">🛒 清空购物车券</div>
+                <div class="coupon-desc">限 500 元额度内，清空你购物车里犹豫了很久的宝贝。</div>
+                <button class="coupon-use" onclick="useCoupon('c3')">撕下使用</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card heart-game">
+        <div class="card-title">💗 COLLECT HEARTBEATS</div>
+        <button class="heart-btn" id="heartBtn" onclick="collectHeart()">💗</button>
+        <div class="bar-wrap"><div class="bar-fill" id="heartBar"></div></div>
+        <div class="heart-msg" id="heartMsg">每点一次，就多一分心动...</div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">🌌 CONNECT THE STARS</div>
+        <div class="star-wrap"><canvas id="starCanvas"></canvas></div>
+        <div class="star-hint" id="starHint">点击星星，连成属于我们的形状</div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">⏳ TIME MACHINE</div>
+        <input type="range" min="0" max="3" value="0" class="time-slider" id="timeSlider" oninput="changeTime(this.value)">
+        <div class="time-labels"><span>初见</span><span>相恋</span><span>现在</span><span>未来</span></div>
+        <div class="time-text" id="timeText">滑动滑块，穿越我们的时光...</div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">🎯 CONFESSION WALL</div>
+        <div class="danmaku-area" id="dmArea"></div>
+        <div class="dm-input">
+            <input id="dmIn" placeholder="写下你想说的话..." maxlength="30">
+            <button onclick="sendDm()">发送</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">🎁 SCRATCH SURPRISE</div>
+        <div class="scratch-wrap">
+            <div class="scratch-bg">🎉 恭喜你解锁隐藏表白！<br>唐雨欣，你是我此生最美的风景。</div>
+            <canvas id="scratchCanvas"></canvas>
+        </div>
+    </div>
+
+    <div class="card vow-box">
+        <div class="card-title">📜 PROMISE GENERATOR</div>
+        <div class="vow-text" id="vowText">点击下方按钮，抽取我对你的承诺 ✨</div>
+        <button class="vow-btn" onclick="genVow()">🎲 抽取承诺</button>
+    </div>
+
+    <div class="actions">
+        <button class="act-btn pri" onclick="rainRoses()">🌹 花雨</button>
+        <button class="act-btn" id="shakeBtn" onclick="reqShakePerm()">📱 摇一摇</button>
+        <button class="act-btn" onclick="burstFw()">🎆 烟花</button>
+    </div>
+    <div class="footer">WITH ALL MY LOVE · TANG YUXIN · 2026</div>
+</div>
+
+<audio id="bgm" loop preload="auto">
+    <source src="bgm.mp3" type="audio/mpeg">
+    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=relaxing-145038.mp3" type="audio/mpeg">
+</audio>
+<audio id="voiceAudio" preload="auto"><source src="voice.mp3" type="audio/mpeg"></audio>
+
+<script>
+const C={date:"2024/01/01 00:00:00",intro:"雨欣，80亿人里我的雷达只对你有反应。往下滑，每个角落都藏着喜欢你 ✨",chat:[{s:"l",t:"唐雨欣同学，在吗？👋"},{s:"l",t:"遇见你之后，我再也没羡慕过任何人"},{s:"r",t:"真的假的呀 🥺"},{s:"l",t:"比珍珠还真！你是我平淡生活里的星辰大海 🌊"},{s:"l",t:"以后你的快乐我来承包，难过我来兜底 💕"},{s:"r",t:"那...拉钩！🤙"},{s:"l",t:"拉钩盖章，一辈子不许变 ❤️"}],vows:["我承诺：你永远是我的第一优先级 🥇","我承诺：吵架了我先道歉，哪怕不是我的错 🙋‍♂️","我承诺：记住你所有细枝末节和小习惯 📝","我承诺：每年带你去一个没去过的地方 ✈️","我承诺：你不想做饭的时候，永远有我 🍳","我承诺：你的手机电量永远不会低于20% 🔋","我承诺：睡前最后一句话永远是爱你 🌙","我承诺：你的朋友圈我永远第一个点赞 👍","我承诺：冬天给你暖手，夏天给你扇风 ❄️☀️","我承诺：老了也要牵你的手散步 👴👵"],heartStages:[{p:10,t:"心跳加速中... 💓"},{p:30,t:"已经开始想你了 💗"},{p:50,t:"满脑子都是你 💘"},{p:70,t:"快要溢出来了 💝"},{p:90,t:"就差最后一点了！💖"},{p:100,t:"❤️ 心动值已满！唐雨欣，我爱你！❤️"}],timeTexts:["初见那天，阳光刚好落在你的发梢。我当时就在想，怎么会有这么好看的女孩，连发呆都像是在写诗。","后来慢慢靠近你，发现你不仅好看，还那么善良可爱。每一次和你聊天，我都偷偷在屏幕这边傻笑。","现在的我，已经习惯了生活里全是你。你的喜怒哀乐，成了我世界里最重要的天气预报。","未来的日子，我想和你有个带院子的小房子，养只猫，种满你喜欢的花。每天醒来，第一眼就是你。"],aiVoiceText:"亲爱的雨欣，这是我专门为你写的一段话。其实每次看着你，我都在想，我到底是攒了多久的好运气，才能遇见你。我爱你，不止今天，而是未来的每一天。"};
+const $=id=>document.getElementById(id);
+const bgm=$('bgm'),voiceAudio=$('voiceAudio');
+let mPlaying=false,voicePlaying=false;
+const synth=window.speechSynthesis;
+
+function attemptPlay(){try{const ctx=new(window.AudioContext||window.webkitAudioContext)();if(ctx.state==='suspended')ctx.resume();}catch(e){}bgm.volume=0.5;bgm.play().then(()=>{mPlaying=true;$('bgmBtn').classList.add('playing');$('mLbl').textContent='BGM 播放中';}).catch(err=>{$('bgmBtn').classList.add('error');$('mLbl').textContent='播放失败';showToast("⚠️ 音乐被拦截，请检查静音键");});}
+function toggleMusic(){if(mPlaying){bgm.pause();mPlaying=false;$('bgmBtn').classList.remove('playing');$('mLbl').textContent='BGM 已暂停';}else{attemptPlay();}}
+function toggleVoice(){if(voicePlaying){voiceAudio.pause();if(synth)synth.cancel();$('vinylDisc').classList.remove('spinning');$('vLbl').textContent='播放语音';voicePlaying=false;return;}$('vinylDisc').classList.add('spinning');$('vLbl').textContent='播放中...';voicePlaying=true;if(mPlaying)bgm.volume=0.1;voiceAudio.play().catch(()=>{if(synth){const u=new SpeechSynthesisUtterance(C.aiVoiceText);u.lang='zh-CN';u.rate=0.9;u.onend=()=>{endVoice();};synth.speak(u);}else{endVoice();showToast("未找到 voice.mp3");}});}
+function endVoice(){$('vinylDisc').classList.remove('spinning');$('vLbl').textContent='播放语音';voicePlaying=false;if(mPlaying)bgm.volume=0.5;}
+voiceAudio.addEventListener('ended',endVoice);
+document.addEventListener('WeixinJSBridgeReady',()=>{if(!mPlaying)attemptPlay();},false);
+
+let unlocked=false;
+function unlock(){if(unlocked)return;unlocked=true;$('lock').classList.add('gone');$('main').classList.add('show');attemptPlay();startTw();startChat();initPtc();startAutoDm();setTimeout(()=>{initScratch();initStars();},800);setTimeout(()=>showToast("🎁 摇一摇手机，掉落专属惊喜！"),3000);}
+const lb=$('lockBtn');let pt=null;
+const sp=e=>{e.preventDefault();lb.classList.add('pressing');pt=setTimeout(unlock,800)};
+const ep=()=>{clearTimeout(pt);lb.classList.remove('pressing')};
+lb.addEventListener('mousedown',sp);lb.addEventListener('mouseup',ep);lb.addEventListener('mouseleave',ep);
+lb.addEventListener('touchstart',sp,{passive:false});lb.addEventListener('touchend',ep);lb.addEventListener('touchcancel',ep);
+
+function startTw(){const el=$('tw');let i=0;(function t(){if(i<C.intro.length){el.textContent+=C.intro.charAt(i++);setTimeout(t,55)}})();}
+function updTimer(){const d=Date.now()-new Date(C.date).getTime(),abs=Math.abs(d),f=d<0;$('timerLbl').textContent=f?'⏳ COUNTING DOWN':'⏱ TIME TOGETHER';$('td').textContent=Math.floor(abs/864e5);$('th').textContent=String(Math.floor(abs%864e5/36e5)).padStart(2,'0');$('tm').textContent=String(Math.floor(abs%36e5/6e4)).padStart(2,'0');$('ts').textContent=String(Math.floor(abs%6e4/1e3)).padStart(2,'0');}
+setInterval(updTimer,1000);updTimer();
+let letterOpen=false;function openLetter(){if(letterOpen)return;letterOpen=true;$('envelope').classList.add('opened');}
+
+function startChat(){const box=$('chat');let i=0;function next(){if(i>=C.chat.length)return;const m=C.chat[i],div=document.createElement('div');div.className=`msg ${m.s}`;div.textContent=m.t;box.appendChild(div);requestAnimationFrame(()=>box.scrollTop=box.scrollHeight);i++;setTimeout(next,1100+Math.random()*900)}setTimeout(next,1200);}
+const dmPhrases=["唐雨欣最可爱","永远爱你","你是我的光","今天也想你","❤️❤️❤️","最好看的女孩","心动每一天","要一直在一起","想抱紧你","我的眼里只有你"];
+function addDm(text){const area=$('dmArea'),el=document.createElement('div');el.className='dm';el.textContent=text;el.style.top=Math.random()*120+'px';el.style.animationDuration=(5+Math.random()*4)+'s';area.appendChild(el);el.addEventListener('animationend',()=>el.remove());}
+function sendDm(){const inp=$('dmIn'),v=inp.value.trim();if(!v)return;addDm(v);inp.value='';}
+function startAutoDm(){let i=0;setInterval(()=>{addDm(dmPhrases[i%dmPhrases.length]);i++},2500);}
+
+let hearts=0;
+function collectHeart(){if(hearts>=100)return;hearts=Math.min(100,hearts+2);$('heartBar').style.width=hearts+'%';const stage=C.heartStages.find(s=>hearts<=s.p);$('heartMsg').textContent=stage?stage.t:C.heartStages[C.heartStages.length-1].t;if(hearts>=100){$('heartMsg').classList.add('heart-done');$('heartBtn').textContent='❤️‍🔥';rainRoses();burstFw();}const rect=$('heartBtn').getBoundingClientRect();spawnFw(rect.left+rect.width/2,rect.top+rect.height/2,15);}
+function useCoupon(id){const el=$(id);if(el.classList.contains('used'))return;el.classList.add('used');el.querySelector('.coupon-use').textContent='已使用';rainRoses();showToast("🎉 兑换成功！请尽快找我兑现哦～");}
+function genVow(){const el=$('vowText');el.style.opacity=0;setTimeout(()=>{el.textContent=C.vows[Math.floor(Math.random()*C.vows.length)];el.style.opacity=1},300);}
+function changeTime(val){$('timeText').style.opacity=0;setTimeout(()=>{$('timeText').textContent=C.timeTexts[val];$('timeText').style.opacity=1;const colors=['radial-gradient(ellipse at 30% 40%,rgba(0,200,255,.08) 0%,transparent 60%)','radial-gradient(ellipse at 70% 70%,rgba(255,100,150,.08) 0%,transparent 60%)','radial-gradient(ellipse at 50% 50%,rgba(255,200,0,.05) 0%,transparent 60%)','radial-gradient(ellipse at 30% 70%,rgba(150,0,255,.08) 0%,transparent 60%)'];$('bgLayer').style.background=colors[val];},300);}
+
+function initStars(){const canvas=$('starCanvas');if(!canvas)return;const ctx=canvas.getContext('2d');const dpr=window.devicePixelRatio||1;const rect=canvas.getBoundingClientRect();if(rect.width===0||rect.height===0){setTimeout(initStars,500);return;}canvas.width=rect.width*dpr;canvas.height=rect.height*dpr;ctx.scale(dpr,dpr);const stars=Array.from({length:15},()=>({x:Math.random()*(rect.width-20)+10,y:Math.random()*(rect.height-20)+10,r:Math.random()*1.5+1.5,active:false}));let lines=[];function draw(){ctx.clearRect(0,0,rect.width,rect.height);ctx.strokeStyle='rgba(255,126,179,0.6)';ctx.lineWidth=1.5;ctx.beginPath();lines.forEach((s,i)=>{if(i===0)ctx.moveTo(s.x,s.y);else ctx.lineTo(s.x,s.y);});ctx.stroke();stars.forEach(s=>{ctx.fillStyle=s.active?'#ff7eb3':'rgba(255,255,255,0.8)';ctx.shadowBlur=s.active?10:5;ctx.shadowColor=s.active?'#ff7eb3':'#fff';ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();});ctx.shadowBlur=0;}canvas.addEventListener('pointerdown',(e)=>{e.preventDefault();e.stopPropagation();const canvasRect=canvas.getBoundingClientRect();const x=e.clientX-canvasRect.left,y=e.clientY-canvasRect.top;let closest=null,minDist=35;stars.forEach(s=>{const d=Math.hypot(s.x-x,s.y-y);if(d<minDist){minDist=d;closest=s;}});if(closest&&!closest.active){closest.active=true;lines.push(closest);draw();if(lines.length===stars.length){$('starHint').textContent="✨ 满天星辰，都不及你眼中的光 ✨";burstFw();}}},{passive:false});draw();}
+
+function initScratch(){const canvas=$('scratchCanvas'),ctx=canvas.getContext('2d');if(!canvas)return;const dpr=window.devicePixelRatio||1;const rect=canvas.getBoundingClientRect();if(rect.width===0||rect.height===0){setTimeout(initScratch,500);return;}canvas.width=rect.width*dpr;canvas.height=rect.height*dpr;ctx.scale(dpr,dpr);ctx.fillStyle='#1a1a20';ctx.fillRect(0,0,rect.width,rect.height);ctx.fillStyle='rgba(255,255,255,.4)';ctx.font='14px PingFang SC';ctx.textAlign='center';ctx.fillText('用手指涂抹刮开惊喜 👆',rect.width/2,rect.height/2);let isDrawing=false;ctx.globalCompositeOperation='destination-out';function draw(e){if(!isDrawing)return;e.preventDefault();const canvasRect=canvas.getBoundingClientRect();const x=e.clientX-canvasRect.left,y=e.clientY-canvasRect.top;ctx.beginPath();ctx.arc(x,y,20,0,Math.PI*2);ctx.fill();}canvas.addEventListener('pointerdown',(e)=>{isDrawing=true;draw(e);e.preventDefault();e.stopPropagation();},{passive:false});canvas.addEventListener('pointerup',()=>isDrawing=false);canvas.addEventListener('pointerleave',()=>isDrawing=false);canvas.addEventListener('pointermove',draw);}
+
+let shakeGranted=false,lastShake=0;
+function reqShakePerm(){if(typeof DeviceMotionEvent!=='undefined'&&typeof DeviceMotionEvent.requestPermission==='function'){DeviceMotionEvent.requestPermission().then(r=>{if(r==='granted'){shakeGranted=true;bindShake();showToast("✅ 摇一摇已开启！");}}).catch(console.error);}else{shakeGranted=true;bindShake();showToast("✅ 摇一摇已开启！");}}
+function bindShake(){window.addEventListener('devicemotion',(e)=>{const acc=e.accelerationIncludingGravity;if(!acc)return;const speed=Math.abs(acc.x+acc.y+acc.z);if(speed>25&&Date.now()-lastShake>3000){lastShake=Date.now();triggerShakeGift();}});}
+function triggerShakeGift(){const gifts=['💍','🧸','🎁','💌','👑'];const box=$('roseBox');for(let i=0;i<20;i++)setTimeout(()=>{const r=document.createElement('div');r.className='rose';r.textContent=gifts[Math.floor(Math.random()*gifts.length)];r.style.left=Math.random()*100+'vw';r.style.fontSize='30px';r.style.animationDuration='2.5s';box.appendChild(r);setTimeout(()=>r.remove(),3000);},i*80);showToast("🎉 捕捉到一只摇晃手机的可爱雨欣！");}
+function showToast(msg){const toast=$('shakeToast');toast.textContent=msg;toast.classList.add('show');setTimeout(()=>{toast.classList.remove('show');},2500);}
+
+function initPtc(){const c=$('ptc'),ctx=c.getContext('2d'),dpr=devicePixelRatio||1;let w,h,pts=[];function rs(){w=innerWidth;h=innerHeight;c.width=w*dpr;c.height=h*dpr;c.style.width=w+'px';c.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',rs);rs();class P{constructor(){this.init()}init(){this.x=Math.random()*w;this.y=Math.random()*h;this.r=Math.random()*1.5+.5;this.vy=-(Math.random()*.3+.1);this.a=Math.random()*.3+.1}update(){this.y+=this.vy;if(this.y<-10){this.init();this.y=h+10}}draw(){ctx.globalAlpha=this.a;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fill()}}for(let i=0;i<40;i++)pts.push(new P());(function lp(){ctx.clearRect(0,0,w,h);pts.forEach(p=>{p.update();p.draw()});requestAnimationFrame(lp)})();}
+const fc=$('fw'),fx=fc.getContext('2d');let fp=[],FM=300;const fd=devicePixelRatio||1;
+function rsF(){const w=innerWidth,h=innerHeight;fc.width=w*fd;fc.height=h*fd;fc.style.width=w+'px';fc.style.height=h+'px';fx.setTransform(fd,0,0,fd,0,0)}
+addEventListener('resize',rsF);rsF();
+class F{constructor(x,y){this.x=x;this.y=y;const a=Math.random()*Math.PI*2,s=Math.random()*5+2;this.vx=Math.cos(a)*s;this.vy=Math.sin(a)*s;this.life=80;this.color=`hsl(${Math.random()*60+310},80%,70%)`}update(){this.x+=this.vx;this.y+=this.vy;this.vy+=.05;this.life--}draw(){fx.globalAlpha=this.life/80;fx.fillStyle=this.color;fx.beginPath();fx.arc(this.x,this.y,2,0,Math.PI*2);fx.fill()}}
+function spawnFw(x,y,n=60){for(let i=0;i<n;i++){if(fp.length>=FM)fp.shift();fp.push(new F(x,y))}}
+function burstFw(){for(let i=0;i<5;i++)setTimeout(()=>spawnFw(Math.random()*innerWidth,Math.random()*innerHeight*.6,80),i*300)}
+document.addEventListener('click',e=>{if(!e.target.closest('.act-btn,.heart-btn,.vow-btn,.dm-input,.letter-wrap,.lock-icon,.scratch-wrap,.time-slider,#starCanvas,.vinyl-btn,.coupon-use,.audio-btn'))spawnFw(e.clientX,e.clientY,35)});
+(function fl(){const w=innerWidth,h=innerHeight;fx.clearRect(0,0,w,h);for(let i=fp.length-1;i>=0;i--){fp[i].update();fp[i].draw();if(fp[i].life<=0)fp.splice(i,1)}requestAnimationFrame(fl)})();
+function rainRoses(){const box=$('roseBox'),emo=['🌹','🌸','💗','✨','🩷'];for(let i=0;i<50;i++)setTimeout(()=>{const r=document.createElement('div');r.className='rose';r.textContent=emo[~~(Math.random()*emo.length)];r.style.left=Math.random()*100+'vw';r.style.fontSize=(Math.random()*16+14)+'px';r.style.animationDuration=(Math.random()*2+2)+'s';box.appendChild(r);setTimeout(()=>r.remove(),4000);},i*60);}
+</script>
+</body>
+</html>
